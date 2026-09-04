@@ -1,0 +1,294 @@
+.hero {
+  position: relative;
+  /* El Header vive FUERA del Hero (es su propio componente, en flujo
+     normal antes de <Hero />), así que "Header + Hero" no puede sumar
+     100dvh sin desbordar la pantalla: el Hero debe medir el viewport
+     MENOS lo que ya ocupa el Header. 100dvh (dynamic viewport height) en
+     vez de 100vh: se ajusta al viewport real en navegadores móviles con
+     barras de UI que aparecen/desaparecen, en vez de asumir siempre la
+     altura máxima teórica. Altura fija (no min-height) + overflow:hidden:
+     el Hero termina exactamente aquí, y .wall (position:absolute +
+     inset:0) queda recortada por esta misma caja sin poder asomar a la
+     siguiente sección. */
+  height: calc(100dvh - var(--header-height));
+  overflow: hidden;
+  background-color: var(--color-bg);
+
+  /* Paleta atenuada exclusiva de la pared tipográfica: gris carbón
+     uniforme y acentos mezclados con ese gris para leerse como textura,
+     nunca como texto protagonista. */
+  --wall-word-color: #333333;
+  --wall-accent-orange: color-mix(
+    in srgb,
+    var(--color-accent-orange) 16%,
+    var(--wall-word-color)
+  );
+  --wall-accent-pink: color-mix(
+    in srgb,
+    var(--color-accent-pink) 16%,
+    var(--wall-word-color)
+  );
+  --wall-accent-yellow: color-mix(
+    in srgb,
+    var(--color-accent-yellow) 16%,
+    var(--wall-word-color)
+  );
+  --wall-accent-blue: color-mix(
+    in srgb,
+    var(--color-accent-blue) 16%,
+    var(--wall-word-color)
+  );
+}
+
+/* ---------- Pared tipográfica ----------
+   Cubre el Hero completo desde y=0 (nace justo bajo el Header). Se generan
+   muchas más filas de las que caben en cualquier pantalla real: el propio
+   overflow:hidden del Hero recorta el sobrante, así la pared llena siempre
+   toda la superficie sin depender de medir el viewport. */
+.wall {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  opacity: 0.45;
+}
+
+.wallRow {
+  position: relative;
+  width: 180%;
+  left: -40%;
+  display: flex;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  font-size: clamp(2.75rem, 5.5vw, 5.75rem);
+  line-height: 0.78;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--wall-word-color);
+}
+
+/* Desplazamiento horizontal cíclico (6 valores) para romper la cuadrícula:
+   cada fila empieza/termina fuera del viewport por un lado distinto. */
+.wallRow:nth-child(6n + 1) {
+  transform: translateX(-18%);
+}
+
+.wallRow:nth-child(6n + 2) {
+  transform: translateX(10%);
+}
+
+.wallRow:nth-child(6n + 3) {
+  transform: translateX(-8%);
+}
+
+.wallRow:nth-child(6n + 4) {
+  transform: translateX(16%);
+}
+
+.wallRow:nth-child(6n + 5) {
+  transform: translateX(-22%);
+}
+
+.wallRow:nth-child(6n) {
+  transform: translateX(5%);
+}
+
+.wallPhrase {
+  padding-inline-end: 0.9em;
+}
+
+.wallAccent[data-color="orange"] {
+  color: var(--wall-accent-orange);
+}
+
+.wallAccent[data-color="pink"] {
+  color: var(--wall-accent-pink);
+}
+
+.wallAccent[data-color="yellow"] {
+  color: var(--wall-accent-yellow);
+}
+
+.wallAccent[data-color="blue"] {
+  color: var(--wall-accent-blue);
+}
+
+/* ---------- Título + memoji: un único bloque compacto ----------
+   En vez de perseguir un valor de vh distinto para cada elemento (título,
+   gap, memoji...), fijamos UNA sola altura para el bloque completo
+   (.centerBlock) y lo convertimos en container de tamaño: sus hijos se
+   miden en unidades de contenedor (cqh), relativas a ESA altura, nunca al
+   viewport. Así título y memoji crecen o encogen siempre proporcionados
+   entre sí y el conjunto nunca puede superar la altura que le hemos dado
+   -una composición ancha y compacta, no una torre vertical-, sin dejar de
+   ser una sola pieza (el gap también es proporcional al bloque). */
+.stack {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  /* Sin esto, flex-direction es "row" por defecto: justify-content
+     actuaba sobre el eje horizontal (sin efecto, .centerBlock ya ocupa
+     el 100% del ancho) y era align-items quien controlaba el eje
+     vertical -centrando el bloque en vez de anclarlo abajo-. Con la
+     columna, justify-content sí gobierna la posición vertical real. */
+  flex-direction: column;
+  align-items: center;
+  /* Anclado al borde inferior: la sección termina donde termina el
+     dibujo, justo encima de .colorBar, sin franja de pared vacía debajo. */
+  justify-content: flex-end;
+}
+
+.centerBlock {
+  container-type: size;
+  /* Título (11.25cqh) + gap (2cqh) + memoji (56.5cqh) siguen sumando
+     ~100cqh sin overflow. Al ser cqh un % de ESTA altura, reducir solo
+     el vh del bloque (antes 80.5vh preferido, ahora 74vh, ~8% menos)
+     escala título y memoji EXACTAMENTE en la misma proporción -su
+     relación de tamaño entre sí no cambia-, sin tocar ningún valor cqh. */
+  height: clamp(60vh, 74vh, 82vh);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* El memoji (último elemento) queda SIEMPRE anclado al borde inferior
+     de este bloque, tanto si el contenido cabe justo como si lo excede
+     ligeramente: cualquier margen sobrante se va hacia arriba (más pared
+     visible encima del título), nunca entre el memoji y la franja. */
+  justify-content: flex-end;
+  gap: 2cqh;
+}
+
+.headingWrap {
+  flex: 0 0 auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.heading {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  /* Proporcional a la altura del bloque compacto, no al viewport */
+  font-size: 11.25cqh;
+  color: var(--color-text-primary);
+}
+
+.headingLine {
+  display: block;
+}
+
+.headingAccent[data-color="orange"] {
+  color: var(--color-accent-orange);
+}
+
+.headingAccent[data-color="pink"] {
+  color: var(--color-accent-pink);
+}
+
+.headingAccent[data-color="yellow"] {
+  color: var(--color-accent-yellow);
+}
+
+.headingAccent[data-color="blue"] {
+  color: var(--color-accent-blue);
+}
+
+.figure {
+  /* Tamaño de contenido, NO flex:1 rellenando el resto del Hero: así su
+     altura la decide directamente .imageFrame (vía su ancho), sin caja
+     vacía de por medio que pueda separarse del título. */
+  flex: 0 0 auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.imageFrame {
+  position: relative;
+  /* Sigue habiendo una única medida fijada -para no repetir el conflicto
+     altura/max-width de antes-, pero ahora es relativa al bloque compacto
+     (cqh) en vez de al viewport (vh/vw): crece y encoge en la misma
+     proporción que el título, porque ambos derivan de la misma altura. */
+  height: 56.5cqh;
+  aspect-ratio: 3 / 2;
+}
+
+/* ---------- Cierre visual del Hero ----------
+   Franja fina de 4 bloques de color sólidos (sin gradiente), pegada al
+   borde inferior exacto del Hero. Al estar dentro de .hero (que tiene
+   overflow:hidden), queda garantizado que nada de la pared tipográfica
+   aparece por debajo de ella. */
+.colorBar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  display: flex;
+  width: 100%;
+  height: 5px;
+}
+
+.colorBlock {
+  flex: 1;
+}
+
+.colorBlock[data-color="blue"] {
+  background-color: var(--color-accent-blue);
+}
+
+.colorBlock[data-color="yellow"] {
+  background-color: var(--color-accent-yellow);
+}
+
+.colorBlock[data-color="orange"] {
+  background-color: var(--color-accent-orange);
+}
+
+.colorBlock[data-color="pink"] {
+  background-color: var(--color-accent-pink);
+}
+
+.image {
+  object-fit: contain;
+  object-position: bottom center;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .wallRow {
+    font-size: clamp(1.9rem, 4.5vw, 3.5rem);
+  }
+
+  .imageFrame {
+    height: auto;
+    width: clamp(280px, 55vw, 520px);
+  }
+}
+
+/* Móvil: evita overflow y adapta escalas, sin cambiar la composición */
+@media (max-width: 700px) {
+  .heading {
+    font-size: clamp(1.9rem, 8.5vw, 2.9rem);
+  }
+
+  .headingWrap {
+    padding-top: clamp(0.5rem, 2.5vh, 1rem);
+  }
+
+  .wallRow {
+    font-size: clamp(1.4rem, 7vw, 2.4rem);
+  }
+
+  .imageFrame {
+    height: auto;
+    width: clamp(220px, 78vw, 380px);
+  }
+}
