@@ -1,0 +1,381 @@
+.projects {
+  position: relative;
+  /* Grafito ligeramente más claro y con un matiz frío/azulado muy leve
+     respecto a --color-bg (#0a0a0a), para que la sección se perciba como
+     un bloque nuevo sin romper la identidad oscura del portfolio. Cambio
+     sutil a propósito: no es un color distinto, es el mismo negro con un
+     pelín más de luz y un toque azulado casi imperceptible. */
+  --projects-bg: #0d1014;
+  background-color: var(--projects-bg);
+  /* La identidad global solo define naranja/rosa/amarillo/azul; las pills
+     de tecnología dentro de cada card usan también verde y morado como
+     detalle ocasional. Variables locales (mismo criterio ya usado en
+     About) en vez de tocar globals.css. */
+  --projects-accent-green: #3ddc84;
+  --projects-accent-purple: #a78bfa;
+  /* Más padding superior que inferior: separa claramente del divisorio
+     multicolor de arriba antes de llegar al encabezado. */
+  padding-block: var(--space-2xl) var(--space-xl);
+}
+
+/* ---------- Separador multicolor con About ----------
+   Mucho más discreto que la franja del Hero (5px, opacity 0.4): aquí solo
+   2px, colores sólidos al 100% pero una línea muy fina, funciona como
+   cierre de About y arranque de Projects sin competir con el Hero. */
+.topBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  width: 100%;
+  height: 2px;
+}
+
+.topBarBlock {
+  flex: 1;
+}
+
+.topBarBlock[data-color="blue"] {
+  background-color: var(--color-accent-blue);
+}
+
+.topBarBlock[data-color="yellow"] {
+  background-color: var(--color-accent-yellow);
+}
+
+.topBarBlock[data-color="orange"] {
+  background-color: var(--color-accent-orange);
+}
+
+.topBarBlock[data-color="pink"] {
+  background-color: var(--color-accent-pink);
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-accent-blue);
+}
+
+.heading {
+  text-align: left;
+  font-weight: 800;
+  /* Con presencia propia, pero por debajo del título del Hero (que llega
+     a varios cqh del bloque central) y algo mayor que el de About. */
+  font-size: clamp(2.25rem, 3.4vw, 3.25rem);
+  line-height: 1.15;
+  color: var(--color-text-primary);
+}
+
+/* Bloque introductorio: mismo lenguaje visual que los párrafos de About
+   (color secundario, line-height cómodo), pero alineado a la izquierda
+   -como el resto del encabezado de Projects, no centrado como About- y
+   con un tamaño más discreto para no competir con el título. Ancho
+   limitado para que la línea de lectura no se estire de más. */
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  /* Reducido de 44rem: a 1.05rem de fuente esa anchura rondaba las 75-80
+     caracteres por línea, en el límite superior de lo cómodo. 40rem deja
+     una columna más ajustada y editorial, sin tocar tipografía. */
+  max-width: 40rem;
+  margin-top: var(--space-md);
+  /* Antes vivía en .header: al añadirse este bloque en medio, es .intro
+     quien ahora separa el encabezado del grid de cards. */
+  margin-bottom: var(--space-xl);
+  color: var(--color-text-secondary);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+/* Grid de 2 columnas dentro del mismo .container del resto del
+   portfolio (sin breakout): cada card ocupa la mitad del ancho. */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-lg);
+}
+
+.card {
+  /* Sin altura fija: min-height marca el punto de partida (520-560px);
+     si el contenido real necesitara más, la card crece con él -no hay
+     overflow:hidden en .card, así nunca se recorta nada-. */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  min-height: 32rem;
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+/* Acento de borde discreto (no la card entera): un tramo corto de 3px en
+   la esquina superior izquierda, con el color de identidad de cada
+   proyecto. Pseudo-elemento en vez de un nodo extra en el JSX. */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: var(--space-lg);
+  width: 2.75rem;
+  height: 3px;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+}
+
+.card[data-accent="orange"]::before {
+  background-color: var(--color-accent-orange);
+}
+
+.card[data-accent="blue"]::before {
+  background-color: var(--color-accent-blue);
+}
+
+.cardBody {
+  /* Vuelta a align-items:center + aspect-ratio en .visual: ligar la
+     altura de la imagen a la del texto la dejaba demasiado pequeña
+     (el bloque de texto es más corto que un cuadrado protagonista).
+     La imagen recupera su propio tamaño de showcase de producto. */
+  display: flex;
+  align-items: center;
+  gap: var(--space-xl);
+}
+
+.content {
+  /* Reparto 40/58 aprobado como base. flex en vez de width fijo: si
+     algún texto necesitara un pelín más, puede ceder/tomar espacio sin
+     romper el layout. */
+  flex: 1 1 40%;
+  /* Límite suave de ancho: si la columna creciera más de la cuenta en
+     una card muy ancha, el texto no se estira sin control -longitud de
+     línea más editorial, coherente con el resto del portfolio-. */
+  max-width: 26rem;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.number {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.card[data-accent="orange"] .number {
+  color: var(--color-accent-orange);
+}
+
+.card[data-accent="blue"] .number {
+  color: var(--color-accent-blue);
+}
+
+.category {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: clamp(2rem, 2.6vw, 2.5rem);
+  font-weight: 800;
+  color: var(--color-text-primary);
+}
+
+.titleDot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--radius-full);
+}
+
+.card[data-accent="orange"] .titleDot {
+  background-color: var(--color-accent-orange);
+}
+
+.card[data-accent="blue"] .titleDot {
+  background-color: var(--color-accent-blue);
+}
+
+.subtitle {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.description {
+  font-size: 0.975rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  max-width: 34rem;
+}
+
+.techList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  list-style: none;
+  margin-top: 0.25rem;
+}
+
+.techPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-alt);
+  color: var(--color-text-secondary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.techDot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+.techDot[data-accent="blue"] {
+  background-color: var(--color-accent-blue);
+}
+
+.techDot[data-accent="pink"] {
+  background-color: var(--color-accent-pink);
+}
+
+.techDot[data-accent="orange"] {
+  background-color: var(--color-accent-orange);
+}
+
+.techDot[data-accent="yellow"] {
+  background-color: var(--color-accent-yellow);
+}
+
+.techDot[data-accent="green"] {
+  background-color: var(--projects-accent-green);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  align-self: flex-start;
+  margin-top: 0.4rem;
+  padding: 0.85rem 1.75rem;
+  border-radius: var(--radius-full);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-bg);
+  transition: opacity var(--transition-fast);
+}
+
+.button:hover {
+  opacity: 0.88;
+}
+
+.card[data-accent="orange"] .button {
+  background-color: var(--color-accent-orange);
+}
+
+.card[data-accent="blue"] .button {
+  background-color: var(--color-accent-blue);
+}
+
+/* ---------- Visual del proyecto ----------
+   Los nuevos assets (elevate-dashboard.png / flowly-dashboard.png) ya son
+   un showcase de producto terminado: fondo oscuro, tarjeta de la app y
+   glow de color, todo horneado en el propio PNG. La versión anterior le
+   añadía encima un border-radius + overflow:hidden (un marco recortando
+   el cuadrado) y un box-shadow de color (un segundo glow por encima del
+   que ya trae la imagen) -eso es justo lo que se leía como "cuadro
+   dentro de cuadro" / "captura insertada". Ahora .visual es solo una
+   caja de tamaño: sin marco, sin fondo, sin glow propio, para que el
+   diseño del asset se muestre tal cual, sin nada del sitio superpuesto. */
+.visual {
+  position: relative;
+  /* ~62% del ancho (dentro de 60-62%, sin llegar al 65% descartado),
+     tamaño de showcase de producto. */
+  flex: 0 0 62%;
+  max-width: 32.5rem;
+  /* Los dos assets vuelven a ser cuadrados 1254×1254 reales (Flowly se
+     reemplazó de nuevo): un único aspect-ratio compartido, en vez de un
+     valor en píxeles fijado por proyecto -la vez anterior ese valor
+     quedó obsoleto en cuanto Flowly cambió de proporción otra vez, y
+     forzaba una caja panorámica sobre una imagen ya cuadrada, generando
+     el mismo problema de franjas vacías pero al revés-. Si algún asset
+     futuro dejara de ser cuadrado, esta es la línea a revisar primero. */
+  aspect-ratio: 1 / 1;
+  /* Un pelín más cerca del borde derecho que en la iteración anterior
+     (-0.25 → -0.35 del padding), sin tocar el padding general de .card. */
+  margin-right: calc(var(--space-lg) * -0.35);
+  /* Espacio de respiro para que el difuminado propio de cada asset se
+     apague del todo en zona transparente antes de llegar a cualquier
+     límite del contenedor, en vez de cortarse justo en el borde. */
+  padding: 6%;
+}
+
+/* Ajuste exclusivo de Flowly: sus tonos oscuros le restan presencia
+   frente al naranja/cálido de Elevate a igualdad de tamaño de caja. Un
+   scale() sobre .visual (no sobre .card ni sobre el layout) aumenta el
+   tamaño percibido sin tocar flex-basis/aspect-ratio compartidos -así
+   Elevate queda intacto-, y un margin-left negativo lo acerca un poco al
+   bloque de texto. */
+.card[data-accent="blue"] .visual {
+  transform: scale(1.12);
+  margin-left: calc(var(--space-lg) * -0.3);
+}
+
+.visualImage {
+  /* contain: el asset es 1:1 real y el contenedor también es 1:1, así
+     que no hay recorte posible ni falta de espacio para que el glow del
+     propio PNG respire hasta el borde del contenedor. Sin deformación
+     posible: object-fit nunca estira la imagen. */
+  object-fit: contain;
+}
+
+/* ---------- Cierre ---------- */
+
+.closing {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+}
+
+.closingLine {
+  flex: 1;
+  height: 1px;
+  background-color: var(--color-border);
+}
+
+.closingText {
+  flex-shrink: 0;
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+}

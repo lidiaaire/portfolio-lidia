@@ -1,0 +1,315 @@
+.about {
+  position: relative;
+  background-color: var(--color-bg);
+  /* Texto del cuerpo algo más claro que --color-text-secondary (pensado
+     para gris de fondo, no para párrafo protagonista), pero sin llegar al
+     blanco puro del título: variable local para no tocar globals.css. */
+  --about-body-color: rgba(255, 255, 255, 0.82);
+  /* La identidad visual solo define 4 acentos (naranja, rosa, amarillo,
+     azul); el bloque de tecnologías pide un quinto y sexto color (verde,
+     morado) para su carácter multicolor. Variables locales del componente
+     en vez de tocar globals.css, ya que por ahora solo se usan aquí. */
+  --about-accent-green: #3ddc84;
+  --about-accent-purple: #a78bfa;
+  padding-block: var(--space-xl) var(--space-lg);
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-accent-blue);
+  margin-bottom: var(--space-sm);
+}
+
+.heading {
+  /* 62rem (992px): con font-size hasta 2.875rem (46px), la línea más
+     larga ("Empezó resolviendo problemas reales.", 36 caracteres) cabe
+     con margen -antes, a 46rem/736px, no cabía y forzaba una 4ª línea-. */
+  max-width: 62rem;
+  text-align: center;
+  font-weight: 800;
+  font-size: clamp(2.25rem, 3vw, 2.875rem);
+  line-height: 1.2;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-lg);
+}
+
+.headingLine {
+  display: block;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  /* Ancho relativo al VIEWPORT real, no al contenedor de 1200px: 54rem
+     ya equivalía al 75% del `.container`, pero ese contenedor está
+     tope-limitado, muy por debajo del ancho real de una pantalla desktop
+     amplia -de ahí que se sintiera concentrado en el centro-. clamp()
+     en vez de max-width por separado: con max-width solo, en ventanas de
+     ~1700px el techo ganaba antes de llegar al 70vw real y el resultado
+     quedaba más estrecho de lo buscado (~60%, no 70-75%). El techo
+     (72rem/1152px) coincide con el ancho de contenido de `.container`,
+     así nunca desborda esa columna aunque en pantallas muy anchas ocupe
+     el 100% de ella. */
+  width: clamp(45rem, 70vw, 72rem);
+  text-align: center;
+  color: var(--about-body-color);
+  font-size: 1.25rem;
+  line-height: 1.6;
+}
+
+.body strong {
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.divider {
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin-inline: auto;
+  margin-top: var(--space-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+/* ---------- Tecnologías y herramientas ---------- */
+
+.techSection {
+  display: flex;
+  flex-direction: column;
+  /* Espacio moderado entre encabezado y la primera fila */
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+}
+
+.techHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.techTitle {
+  text-transform: uppercase;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-accent-blue);
+}
+
+.techSubtitle {
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+}
+
+.techGrid {
+  display: flex;
+  flex-direction: column;
+  /* Espacio uniforme entre fila 1 → fila 2 → fila 3 */
+  gap: var(--space-sm);
+}
+
+.techRow {
+  display: flex;
+  /* Sin salto de línea: las pills forman un grupo compacto centrado, con
+     gap constante entre ellas -antes, space-between repartía el espacio
+     LIBRE entre pills, creando huecos artificiales en vez de un ritmo
+     uniforme-. */
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.875rem;
+  list-style: none;
+}
+
+.techPill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-height: 3rem;
+  padding-inline: 1.6rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  font-size: 1.025rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Acento muy sutil en el borde de cada pill, mezclado con el gris de
+   fondo (mismo recurso que ya usa el Hero: color-mix en vez de un color
+   plano brillante) para no romper la elegancia oscura de la interfaz. */
+.techPill[data-accent="blue"] {
+  border-color: color-mix(in srgb, var(--color-accent-blue) 35%, var(--color-border));
+}
+
+.techPill[data-accent="pink"] {
+  border-color: color-mix(in srgb, var(--color-accent-pink) 35%, var(--color-border));
+}
+
+.techPill[data-accent="orange"] {
+  border-color: color-mix(in srgb, var(--color-accent-orange) 35%, var(--color-border));
+}
+
+.techPill[data-accent="yellow"] {
+  border-color: color-mix(in srgb, var(--color-accent-yellow) 35%, var(--color-border));
+}
+
+.techPill[data-accent="green"] {
+  border-color: color-mix(in srgb, var(--about-accent-green) 35%, var(--color-border));
+}
+
+.techPill[data-accent="purple"] {
+  border-color: color-mix(in srgb, var(--about-accent-purple) 35%, var(--color-border));
+}
+
+.techIcon {
+  flex-shrink: 0;
+  font-size: 1.325rem;
+}
+
+.techIcon[data-accent="blue"] {
+  color: var(--color-accent-blue);
+}
+
+.techIcon[data-accent="pink"] {
+  color: var(--color-accent-pink);
+}
+
+.techIcon[data-accent="orange"] {
+  color: var(--color-accent-orange);
+}
+
+.techIcon[data-accent="yellow"] {
+  color: var(--color-accent-yellow);
+}
+
+.techIcon[data-accent="green"] {
+  color: var(--about-accent-green);
+}
+
+.techIcon[data-accent="purple"] {
+  color: var(--about-accent-purple);
+}
+
+.techName {
+  line-height: 1;
+}
+
+/* ---------- Skills ---------- */
+
+.skillsSection {
+  display: flex;
+  flex-direction: column;
+  /* Espacio moderado entre encabezado y la cuadrícula, igual criterio
+     que en Tecnologías */
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+  /* Aire al final de la 3ª fila para el futuro cierre "Siempre
+     aprendiendo, siempre construyendo." (todavía no implementado);
+     reducido respecto a --space-2xl para no dejar aire vacío de más
+     mientras ese contenido no existe. */
+  padding-bottom: var(--space-xl);
+}
+
+.skillsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.125rem;
+}
+
+.skillCard {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  min-height: 6.5rem;
+  padding: 1rem 1.375rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+/* Mismo recurso que en Tecnologías: acento sutil en el borde vía
+   color-mix, nunca la card rellena de color. */
+.skillCard[data-accent="blue"] {
+  border-color: color-mix(in srgb, var(--color-accent-blue) 30%, var(--color-border));
+}
+
+.skillCard[data-accent="pink"] {
+  border-color: color-mix(in srgb, var(--color-accent-pink) 30%, var(--color-border));
+}
+
+.skillCard[data-accent="orange"] {
+  border-color: color-mix(in srgb, var(--color-accent-orange) 30%, var(--color-border));
+}
+
+.skillCard[data-accent="yellow"] {
+  border-color: color-mix(in srgb, var(--color-accent-yellow) 30%, var(--color-border));
+}
+
+.skillCard[data-accent="green"] {
+  border-color: color-mix(in srgb, var(--about-accent-green) 30%, var(--color-border));
+}
+
+.skillCard[data-accent="purple"] {
+  border-color: color-mix(in srgb, var(--about-accent-purple) 30%, var(--color-border));
+}
+
+.skillIcon {
+  flex-shrink: 0;
+  font-size: 1.875rem;
+  margin-top: 0.125rem;
+}
+
+.skillIcon[data-accent="blue"] {
+  color: var(--color-accent-blue);
+}
+
+.skillIcon[data-accent="pink"] {
+  color: var(--color-accent-pink);
+}
+
+.skillIcon[data-accent="orange"] {
+  color: var(--color-accent-orange);
+}
+
+.skillIcon[data-accent="yellow"] {
+  color: var(--color-accent-yellow);
+}
+
+.skillIcon[data-accent="green"] {
+  color: var(--about-accent-green);
+}
+
+.skillIcon[data-accent="purple"] {
+  color: var(--about-accent-purple);
+}
+
+.skillText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.skillTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.skillDescription {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}

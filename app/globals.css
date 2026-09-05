@@ -24,7 +24,7 @@
   --radius-full: 999px;
 
   /* Layout */
-  --content-max-width: 1200px;
+  --content-max-width: 1500px;
   /* Altura real del Header (calculada a partir de su padding-block y de
      su elemento más alto, el botón "Hablemos"): 2 × 1.5rem de padding +
      ~2.625rem de contenido = 5.625rem base, con +0.375rem (6px) de
