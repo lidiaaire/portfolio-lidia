@@ -1,3 +1,7 @@
+"use client";
+
+import { Fragment } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 import {
   SiHtml5,
   SiCss,
@@ -76,109 +80,49 @@ const TECHNOLOGY_ROWS = ROW_SIZES.reduce((rows, size) => {
 
 // 9 skills en cuadrícula 3×3. El orden del array ES el orden de lectura
 // del grid (fila por fila), así que basta con un único .map() sobre él.
+// Título y descripción viven en los locales (about.skills.<id>); aquí
+// solo quedan los datos de diseño (icono, color) que no se traducen.
 const SKILLS = [
-  {
-    title: "Resolución de problemas",
-    description: "Analizo, planifico y encuentro soluciones eficientes.",
-    icon: TbBulb,
-    color: "blue",
-  },
-  {
-    title: "Desarrollo Full Stack",
-    description: "Construyo aplicaciones completas de principio a fin.",
-    icon: TbCode,
-    color: "pink",
-  },
-  {
-    title: "Diseño responsive",
-    description: "Experiencias adaptadas a todos los dispositivos.",
-    icon: TbDevices,
-    color: "yellow",
-  },
-  {
-    title: "Pensamiento UX/UI",
-    description: "Creo interfaces intuitivas y centradas en el usuario.",
-    icon: TbUser,
-    color: "orange",
-  },
-  {
-    title: "Desarrollo de APIs",
-    description: "Diseño e integro APIs robustas y escalables.",
-    icon: TbServer,
-    color: "blue",
-  },
-  {
-    title: "Diseño y modelado de datos",
-    description: "Estructuro la información de forma eficiente.",
-    icon: TbDatabase,
-    color: "orange",
-  },
-  {
-    title: "Depuración y resolución de errores",
-    description: "Analizo, identifico y soluciono problemas de forma ágil.",
-    icon: TbBug,
-    color: "green",
-  },
-  {
-    title: "Pensamiento de producto",
-    description: "Me enfoco en construir soluciones con un propósito real.",
-    icon: TbTrendingUp,
-    color: "yellow",
-  },
-  {
-    title: "AI Workflow",
-    description:
-      "Uso estratégico de herramientas de IA para investigación, análisis y optimización de procesos.",
-    icon: TbSparkles,
-    color: "purple",
-  },
+  { id: "problemSolving", icon: TbBulb, color: "blue" },
+  { id: "fullStack", icon: TbCode, color: "pink" },
+  { id: "responsiveDesign", icon: TbDevices, color: "yellow" },
+  { id: "uxui", icon: TbUser, color: "orange" },
+  { id: "apiDevelopment", icon: TbServer, color: "blue" },
+  { id: "dataModeling", icon: TbDatabase, color: "orange" },
+  { id: "debugging", icon: TbBug, color: "green" },
+  { id: "productThinking", icon: TbTrendingUp, color: "yellow" },
+  { id: "aiWorkflow", icon: TbSparkles, color: "purple" },
 ];
 
 export default function About() {
+  const { t } = useLanguage();
+  const about = t.about;
+
   return (
     <section id="about" className={styles.about}>
       <div className={`container ${styles.inner}`}>
-        <p className={styles.eyebrow}>Sobre mí</p>
+        <p className={styles.eyebrow}>{about.eyebrow}</p>
 
         <h2 className={styles.heading}>
-          <span className={styles.headingLine}>
-            Mi camino hacia el desarrollo web
-          </span>
-          <span className={styles.headingLine}>no empezó con el código.</span>
-          <span className={styles.headingLine}>
-            Empezó resolviendo problemas reales.
-          </span>
+          {about.heading.map((line) => (
+            <span key={line} className={styles.headingLine}>
+              {line}
+            </span>
+          ))}
         </h2>
 
         <div className={styles.body}>
-          <p>
-            Durante años he trabajado en entornos empresariales y en el sector
-            sanitario, donde he aprendido a entender procesos, detectar
-            necesidades y buscar soluciones. Con el tiempo descubrí que la
-            tecnología me daba la posibilidad de hacer algo que siempre me había
-            atraído:{" "}
-            <strong>
-              convertir ideas en herramientas que realmente puedan ser útiles.
-            </strong>
-          </p>
-
-          <p>
-            Actualmente desarrollo aplicaciones web completas, trabajando tanto
-            en frontend como en backend. Disfruto especialmente de todo el
-            proceso: partir de una idea, pensar cómo debería funcionar,
-            construirla, enfrentarme a los problemas que aparecen por el camino
-            y seguir mejorándola hasta conseguir un producto sólido.
-          </p>
-
-          <p>
-            <strong>
-              Para mí, desarrollar no consiste únicamente en escribir código.
-            </strong>{" "}
-            También implica entender el problema, pensar en quien utilizará el
-            producto y cuidar tanto su funcionamiento como su experiencia. De
-            ahí nace una de las ideas que mejor define mi forma de trabajar:{" "}
-            <strong>Beyond the Code.</strong>
-          </p>
+          {about.body.map((paragraph, index) => (
+            <p key={index}>
+              {paragraph.map((segment, segIndex) =>
+                segment.bold ? (
+                  <strong key={segIndex}>{segment.text}</strong>
+                ) : (
+                  <Fragment key={segIndex}>{segment.text}</Fragment>
+                )
+              )}
+            </p>
+          ))}
         </div>
       </div>
 
@@ -186,7 +130,7 @@ export default function About() {
 
       <div className={`container ${styles.techSection}`}>
         <div className={styles.techHeader}>
-          <h3 className={styles.techTitle}>Tecnologías y herramientas</h3>
+          <h3 className={styles.techTitle}>{about.techTitle}</h3>
         </div>
 
         <div className={styles.techGrid}>
@@ -207,19 +151,24 @@ export default function About() {
 
       <div className={`container ${styles.skillsSection}`}>
         <div className={styles.techHeader}>
-          <h3 className={styles.techTitle}>Skills</h3>
+          <h3 className={styles.techTitle}>{about.skillsTitle}</h3>
         </div>
 
         <div className={styles.skillsGrid}>
-          {SKILLS.map(({ title, description, icon: Icon, color }) => (
-            <div key={title} className={styles.skillCard} data-accent={color}>
-              <Icon className={styles.skillIcon} data-accent={color} />
-              <div className={styles.skillText}>
-                <h4 className={styles.skillTitle}>{title}</h4>
-                <p className={styles.skillDescription}>{description}</p>
+          {SKILLS.map(({ id, icon: Icon, color }) => {
+            const skill = about.skills[id];
+            return (
+              <div key={id} className={styles.skillCard} data-accent={color}>
+                <Icon className={styles.skillIcon} data-accent={color} />
+                <div className={styles.skillText}>
+                  <h4 className={styles.skillTitle}>{skill.title}</h4>
+                  <p className={styles.skillDescription}>
+                    {skill.description}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

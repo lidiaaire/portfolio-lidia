@@ -1,13 +1,18 @@
+"use client";
+
 import Image from "next/image";
 import { TbBrandGithub, TbBrandLinkedin, TbMail } from "react-icons/tb";
+import { useLanguage } from "@/context/LanguageContext";
 import styles from "./Contact.module.css";
 
 // Campos del formulario como array + .map(), igual que el resto del
-// portfolio (STEPS, PROJECTS, etc.).
+// portfolio (STEPS, PROJECTS, etc.). La etiqueta (label) vive en
+// t.contact.form.<id>; aquí solo quedan id/name/type (estructura, no
+// traducible).
 const FORM_FIELDS = [
-  { id: "name", name: "name", label: "Nombre", type: "text" },
-  { id: "email", name: "email", label: "Email", type: "email" },
-  { id: "message", name: "message", label: "Mensaje", type: "textarea" },
+  { id: "name", name: "name", type: "text" },
+  { id: "email", name: "email", type: "email" },
+  { id: "message", name: "message", type: "textarea" },
 ];
 
 // Zona preparada para enlaces: sin lógica todavía, solo estructura y
@@ -19,19 +24,17 @@ const SOCIAL_LINKS = [
 ];
 
 export default function Contact() {
+  const { t } = useLanguage();
+  const contact = t.contact;
+
   return (
     <section id="contact" className={styles.contact}>
       <div className={`container ${styles.inner}`}>
         <div className={styles.grid}>
           <div className={styles.content}>
-            <p className={styles.eyebrow}>Contact me</p>
-            <h2 className={styles.heading}>
-              ¿Te interesa conectar conmigo?
-            </h2>
-            <p className={styles.text}>
-              Envíame un mensaje a través del formulario de contacto y
-              hablamos.
-            </p>
+            <p className={styles.eyebrow}>{contact.eyebrow}</p>
+            <h2 className={styles.heading}>{contact.heading}</h2>
+            <p className={styles.text}>{contact.description}</p>
 
             {/* Sin lógica de envío ni validaciones todavía: solo la
                 estructura del formulario. */}
@@ -39,7 +42,7 @@ export default function Contact() {
               {FORM_FIELDS.map((field) => (
                 <div key={field.id} className={styles.field}>
                   <label htmlFor={field.id} className={styles.label}>
-                    {field.label}
+                    {contact.form[field.id]}
                   </label>
                   {field.type === "textarea" ? (
                     <textarea
@@ -60,7 +63,7 @@ export default function Contact() {
               ))}
 
               <button type="submit" className={styles.submitButton}>
-                Enviar
+                {contact.form.submit}
               </button>
             </form>
 

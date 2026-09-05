@@ -15,17 +15,32 @@ const PHRASES = [
 const WALL_ROWS = 26;
 const REPEATS_PER_ROW = 10;
 
-// El color es un detalle ocasional, no una constante: solo ~1 de cada 6
-// apariciones se acentúa con su color de identidad (muy apagado vía CSS);
-// el resto se queda en gris carbón, igual que el resto de la pared.
-const ACCENT_FREQUENCY = 6;
-
 function buildWallRow(rowIndex) {
   return Array.from({ length: REPEATS_PER_ROW }, (_, i) => {
     const phrase = PHRASES[(rowIndex + i) % PHRASES.length];
-    const accented = (rowIndex * 7 + i * 5) % ACCENT_FREQUENCY === 0;
-    return { ...phrase, key: `${rowIndex}-${i}`, accented };
+    // En la pared no se muestran los puntos del título (solo palabras,
+    // sin puntuación) para que las repeticiones se lean como bloque
+    // continuo, sin la pausa visual que deja el punto.
+    return {
+      ...phrase,
+      key: `${rowIndex}-${i}`,
+      accent: phrase.accent.replace(/\.$/, ""),
+    };
   });
+}
+
+// Desplazamiento horizontal pseudoaleatorio por fila (determinista: misma
+// seed en servidor y cliente, sin Math.random() para evitar problemas de
+// hidratación). Antes se usaba un ciclo fijo de N valores por CSS
+// (nth-child), pero cualquier ciclo corto acaba compartiendo periodo con
+// las 4 frases (el contenido también se desplaza 1 posición por fila) y
+// eso realineaba la misma palabra casi en la misma X cada pocas filas
+// -el efecto de palabras "montadas"-. Sin periodo fijo, esa coincidencia
+// deja de ser sistemática.
+function getRowOffset(rowIndex) {
+  const seed = Math.sin(rowIndex * 12.9898) * 43758.5453;
+  const fraction = seed - Math.floor(seed);
+  return -24 + fraction * 42; // rango aprox. -24% a +18%
 }
 
 export default function Hero() {
@@ -33,14 +48,15 @@ export default function Hero() {
     <section id="hero" className={styles.hero}>
       <div className={styles.wall} aria-hidden="true">
         {Array.from({ length: WALL_ROWS }, (_, rowIndex) => (
-          <p key={rowIndex} className={styles.wallRow}>
+          <p
+            key={rowIndex}
+            className={styles.wallRow}
+            style={{ transform: `translateX(${getRowOffset(rowIndex)}%)` }}
+          >
             {buildWallRow(rowIndex).map((phrase) => (
               <span key={phrase.key} className={styles.wallPhrase}>
                 {phrase.text}
-                <span
-                  className={styles.wallAccent}
-                  data-color={phrase.accented ? phrase.color : undefined}
-                >
+                <span className={styles.wallAccent} data-color={phrase.color}>
                   {phrase.accent}
                 </span>
               </span>

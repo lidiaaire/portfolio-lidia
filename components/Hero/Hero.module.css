@@ -14,30 +14,26 @@
   overflow: hidden;
   background-color: var(--color-bg);
 
-  /* Paleta atenuada exclusiva de la pared tipográfica: gris carbón
-     uniforme y acentos mezclados con ese gris para leerse como textura,
-     nunca como texto protagonista. */
-  --wall-word-color: #333333;
+  /* Paleta atenuada exclusiva de la pared tipográfica. Los colores se
+     oscurecen mezclando con NEGRO (mantienen su saturación, solo pierden
+     luminosidad) en vez de con un gris (que los desaturaba, efecto
+     "lavado"). Mezcla e opacity de capa moderadas: con la pared ya más
+     grande/densa que en la primera iteración, una capa casi opaca (0.92)
+     competía demasiado con el título y lo hacía ilegible -aquí prima la
+     legibilidad del título sobre la presencia del fondo-. */
+  --wall-word-color: #3d3d3d;
   --wall-accent-orange: color-mix(
     in srgb,
-    var(--color-accent-orange) 16%,
-    var(--wall-word-color)
+    var(--color-accent-orange) 40%,
+    black
   );
-  --wall-accent-pink: color-mix(
-    in srgb,
-    var(--color-accent-pink) 16%,
-    var(--wall-word-color)
-  );
+  --wall-accent-pink: color-mix(in srgb, var(--color-accent-pink) 40%, black);
   --wall-accent-yellow: color-mix(
     in srgb,
-    var(--color-accent-yellow) 16%,
-    var(--wall-word-color)
+    var(--color-accent-yellow) 40%,
+    black
   );
-  --wall-accent-blue: color-mix(
-    in srgb,
-    var(--color-accent-blue) 16%,
-    var(--wall-word-color)
-  );
+  --wall-accent-blue: color-mix(in srgb, var(--color-accent-blue) 40%, black);
 }
 
 /* ---------- Pared tipográfica ----------
@@ -52,7 +48,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  opacity: 0.45;
+  opacity: 0.3;
 }
 
 .wallRow {
@@ -62,42 +58,35 @@
   display: flex;
   flex-wrap: nowrap;
   white-space: nowrap;
-  font-size: clamp(2.75rem, 5.5vw, 5.75rem);
-  line-height: 0.78;
+  font-size: clamp(3.5rem, 6.5vw, 7rem);
+  /* line-height por debajo de ~0.85 entra en "negative leading": el
+     propio glifo se renderiza más allá de la caja de línea comprimida,
+     y eso es lo que hacía que las filas se montaran unas sobre otras.
+     0.95 se queda fuera de esa zona de riesgo -sin solape de glifos-,
+     y el hueco que deja se cierra de forma controlada con margin-top
+     (los flex items no colapsan márgenes, así que es un ajuste
+     predecible en vez de seguir bajando line-height a ciegas). */
+  line-height: 0.95;
+  margin-top: -0.12em;
   font-weight: 800;
   letter-spacing: -0.01em;
   text-transform: uppercase;
   color: var(--wall-word-color);
 }
 
-/* Desplazamiento horizontal cíclico (6 valores) para romper la cuadrícula:
-   cada fila empieza/termina fuera del viewport por un lado distinto. */
-.wallRow:nth-child(6n + 1) {
-  transform: translateX(-18%);
-}
+/* El desplazamiento horizontal de cada fila ya no es un ciclo CSS fijo
+   (cualquier ciclo corto de N valores acaba compartiendo periodo con las
+   4 frases del contenido y realinea la misma palabra en la misma X cada
+   pocas filas -el efecto de palabras "montadas"-): se calcula por fila
+   en JS con una función pseudoaleatoria determinista (ver getRowOffset
+   en Hero.js) y se aplica como transform inline, sin periodo fijo. */
 
-.wallRow:nth-child(6n + 2) {
-  transform: translateX(10%);
-}
-
-.wallRow:nth-child(6n + 3) {
-  transform: translateX(-8%);
-}
-
-.wallRow:nth-child(6n + 4) {
-  transform: translateX(16%);
-}
-
-.wallRow:nth-child(6n + 5) {
-  transform: translateX(-22%);
-}
-
-.wallRow:nth-child(6n) {
-  transform: translateX(5%);
-}
-
+/* Sin padding extra entre repeticiones: la única separación entre
+   palabras es el espacio ya incluido en phrase.text (p. ej. "WEB "),
+   nunca un hueco añadido aparte -así no se ve espacio extra donde antes
+   estaba el punto. */
 .wallPhrase {
-  padding-inline-end: 0.9em;
+  padding-inline-end: 0;
 }
 
 .wallAccent[data-color="orange"] {

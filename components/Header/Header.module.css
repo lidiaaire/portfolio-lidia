@@ -22,46 +22,6 @@
   color: var(--color-accent-orange);
 }
 
-.nav {
-  display: flex;
-  flex: 1;
-  justify-content: center;
-}
-
-.navList {
-  display: flex;
-  align-items: center;
-  gap: var(--space-lg);
-  list-style: none;
-}
-
-.navLink {
-  position: relative;
-  display: inline-block;
-  padding-bottom: 0.35rem;
-  font-size: 1.05rem;
-  color: var(--color-text-secondary);
-  transition: color var(--transition-fast);
-}
-
-.navLink:hover {
-  color: var(--color-text-primary);
-}
-
-.active {
-  color: var(--color-text-primary);
-}
-
-.active::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background-color: var(--color-text-primary);
-}
-
 .actions {
   display: flex;
   align-items: center;
@@ -122,10 +82,6 @@
 
 /* Tablet */
 @media (max-width: 900px) {
-  .navList {
-    gap: var(--space-md);
-  }
-
   .actions {
     gap: var(--space-sm);
   }
@@ -136,18 +92,6 @@
   .inner {
     flex-wrap: wrap;
     row-gap: var(--space-sm);
-  }
-
-  .nav {
-    order: 3;
-    width: 100%;
-    justify-content: center;
-  }
-
-  .navList {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--space-sm) var(--space-md);
   }
 
   .actions {
@@ -162,10 +106,6 @@
 
   .langSwitch {
     font-size: 0.85rem;
-  }
-
-  .navLink {
-    font-size: 0.9rem;
   }
 
   .ctaButton {
