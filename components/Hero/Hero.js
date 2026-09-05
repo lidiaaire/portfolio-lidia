@@ -81,13 +81,6 @@ export default function Hero() {
           </div>
         </div>
       </div>
-
-      <div className={styles.colorBar} aria-hidden="true">
-        <span className={styles.colorBlock} data-color="blue" />
-        <span className={styles.colorBlock} data-color="yellow" />
-        <span className={styles.colorBlock} data-color="orange" />
-        <span className={styles.colorBlock} data-color="pink" />
-      </div>
     </section>
   );
 }

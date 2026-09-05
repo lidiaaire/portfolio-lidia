@@ -18,40 +18,6 @@
   padding-block: var(--space-2xl) var(--space-xl);
 }
 
-/* ---------- Separador multicolor con About ----------
-   Mucho más discreto que la franja del Hero (5px, opacity 0.4): aquí solo
-   2px, colores sólidos al 100% pero una línea muy fina, funciona como
-   cierre de About y arranque de Projects sin competir con el Hero. */
-.topBar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  width: 100%;
-  height: 2px;
-}
-
-.topBarBlock {
-  flex: 1;
-}
-
-.topBarBlock[data-color="blue"] {
-  background-color: var(--color-accent-blue);
-}
-
-.topBarBlock[data-color="yellow"] {
-  background-color: var(--color-accent-yellow);
-}
-
-.topBarBlock[data-color="orange"] {
-  background-color: var(--color-accent-orange);
-}
-
-.topBarBlock[data-color="pink"] {
-  background-color: var(--color-accent-pink);
-}
-
 .inner {
   display: flex;
   flex-direction: column;

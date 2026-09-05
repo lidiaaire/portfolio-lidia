@@ -39,13 +39,6 @@ const PROJECTS = [
 export default function Projects() {
   return (
     <section id="projects" className={styles.projects}>
-      <div className={styles.topBar} aria-hidden="true">
-        <span className={styles.topBarBlock} data-color="blue" />
-        <span className={styles.topBarBlock} data-color="yellow" />
-        <span className={styles.topBarBlock} data-color="orange" />
-        <span className={styles.topBarBlock} data-color="pink" />
-      </div>
-
       <div className={`container ${styles.inner}`}>
         <div className={styles.header}>
           <p className={styles.eyebrow}>Proyectos</p>
@@ -54,18 +47,17 @@ export default function Projects() {
 
         <div className={styles.intro}>
           <p>
-            Productos digitales nacidos de problemas reales que he
-            identificado durante mi experiencia profesional. Soluciones
-            donde exploro cómo la tecnología puede ayudar a las empresas a
-            optimizar procesos, mejorar la experiencia de sus usuarios y
-            crear herramientas más eficientes para su día a día.
+            Productos digitales nacidos de problemas reales que he identificado
+            durante mi experiencia profesional. Soluciones donde exploro cómo la
+            tecnología puede ayudar a las empresas a optimizar procesos, mejorar
+            la experiencia de sus usuarios y crear herramientas más eficientes
+            para su día a día.
           </p>
           <p>
-            Desde plataformas educativas hasta sistemas internos de
-            gestión, cada producto parte de una necesidad concreta y busca
-            transformarla en una solución funcional, combinando
-            desarrollo, diseño y una visión orientada tanto a las personas
-            como al negocio.
+            Desde plataformas educativas hasta sistemas internos de gestión,
+            cada producto parte de una necesidad concreta y busca transformarla
+            en una solución funcional, combinando desarrollo, diseño y una
+            visión orientada tanto a las personas como al negocio.
           </p>
         </div>
 
@@ -128,12 +120,6 @@ export default function Projects() {
               </div>
             </article>
           ))}
-        </div>
-
-        <div className={styles.closing}>
-          <span className={styles.closingLine} />
-          <p className={styles.closingText}>Más proyectos pronto...</p>
-          <span className={styles.closingLine} />
         </div>
       </div>
     </section>

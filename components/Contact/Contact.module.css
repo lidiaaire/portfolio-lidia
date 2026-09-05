@@ -1,0 +1,183 @@
+/* Primera pasada visual: reutiliza los tokens globales (bordes, radios,
+   espaciados y acentos) sin crear un sistema paralelo. Sin responsive ni
+   animaciones todavía. */
+
+.contact {
+  background-color: var(--color-bg);
+  /* Más aire que las secciones intermedias: es el cierre del portfolio,
+     necesita sentirse como un final, no como un bloque más. */
+  padding-block: var(--space-2xl);
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  align-items: center;
+  gap: var(--space-2xl);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-accent-blue);
+}
+
+.heading {
+  font-weight: 800;
+  font-size: clamp(2.5rem, 3.8vw, 3.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--color-text-primary);
+}
+
+.text {
+  color: var(--color-text-secondary);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  max-width: 30rem;
+}
+
+/* ---------- Formulario ---------- */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  margin-top: var(--space-md);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.label {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 0.9rem var(--space-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  font-family: inherit;
+  font-size: 1rem;
+  transition: border-color var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--color-accent-blue);
+  background-color: var(--color-surface-alt);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 8rem;
+}
+
+.submitButton {
+  align-self: flex-start;
+  margin-top: var(--space-xs);
+  padding: 0.9rem 2rem;
+  border-radius: var(--radius-full);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-bg);
+  background-color: var(--color-accent-blue);
+  transition: opacity var(--transition-fast);
+}
+
+.submitButton:hover {
+  opacity: 0.88;
+}
+
+/* ---------- Enlaces sociales ---------- */
+
+.socialList {
+  display: flex;
+  gap: var(--space-lg);
+  list-style: none;
+  margin-top: var(--space-lg);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+.socialLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.socialLink:hover {
+  color: var(--color-text-primary);
+}
+
+.socialIconWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.socialIcon {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+/* ---------- Zona visual: memoji con marco propio ----------
+   La imagen ya trae su propio marco geométrico de color horneado en el
+   PNG: aquí no se añade fondo, borde, overlay ni recorte -solo se le da
+   una zona protagonista, centrada, sin deformarla. */
+.visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+}
+
+.memojiFrame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.memojiImage {
+  object-fit: contain;
+}

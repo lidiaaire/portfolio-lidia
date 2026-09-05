@@ -1,0 +1,30 @@
+/* Separador reutilizable entre secciones: línea fina de 4 bloques de
+   color sólidos, sin gradiente, mismo lenguaje visual que la franja de
+   cierre del Hero y la línea superior de Projects. Fondo transparente:
+   no añade ningún bloque de color de sección, solo la línea. */
+.divider {
+  display: flex;
+  width: 100%;
+  height: 2px;
+  background-color: transparent;
+}
+
+.block {
+  flex: 1;
+}
+
+.block[data-color="blue"] {
+  background-color: var(--color-accent-blue);
+}
+
+.block[data-color="orange"] {
+  background-color: var(--color-accent-orange);
+}
+
+.block[data-color="pink"] {
+  background-color: var(--color-accent-pink);
+}
+
+.block[data-color="yellow"] {
+  background-color: var(--color-accent-yellow);
+}

@@ -1,0 +1,76 @@
+/* Cierre minimalista del portfolio: sin tarjetas, sin sombras, sin
+   gradientes ni elementos decorativos. Fondo y separador reutilizan
+   exactamente el mismo lenguaje visual que el resto del proyecto. */
+
+.footer {
+  background-color: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  padding-block: var(--space-2xl);
+  text-align: center;
+}
+
+/* Mismo lenguaje que el logo del Header: mismo tamaño/peso, mismo
+   punto en color de acento. */
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.dot {
+  color: var(--color-accent-orange);
+}
+
+/* ---------- Enlaces sociales ----------
+   Mismo patrón visual que en Contact: icono en contenedor con borde +
+   etiqueta. */
+.socialList {
+  display: flex;
+  gap: var(--space-lg);
+  list-style: none;
+  margin-top: var(--space-sm);
+}
+
+.socialLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  transition: color var(--transition-fast);
+}
+
+.socialLink:hover {
+  color: var(--color-text-primary);
+}
+
+.socialIconWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.socialIcon {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+/* ---------- Copyright ---------- */
+
+.copyright {
+  margin-top: var(--space-lg);
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
