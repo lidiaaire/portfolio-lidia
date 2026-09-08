@@ -1,0 +1,49 @@
+/* "02. El problema", compartida entre Elevate y Flowly. Mismo criterio de
+   acento que el resto de secciones (--accent vía data-accent), pero aquí
+   se usa en un único detalle: el color del número. Sección deliberadamente
+   editorial -sin card, sin icono, sin columnas- para funcionar como
+   transición narrativa entre "01. De dónde nace la idea" y "03. Objetivos". */
+.section {
+  background-color: var(--color-bg);
+}
+
+.section[data-accent="orange"] {
+  --accent: var(--color-accent-orange);
+}
+
+.section[data-accent="blue"] {
+  --accent: var(--color-accent-blue);
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  /* Mismo separador sutil y mismo ritmo vertical que CaseStudyOrigin:
+     continúa el sistema visual en vez de introducir uno nuevo. */
+  padding-top: var(--space-xl);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  border-top: 1px solid var(--color-border);
+}
+
+.title {
+  font-size: clamp(1.5rem, 2.2vw, 1.85rem);
+  font-weight: 800;
+  color: var(--color-text-primary);
+}
+
+.number {
+  color: var(--accent);
+}
+
+/* Una sola columna, ancho de lectura controlado -no recorre toda la
+   pantalla-, mismo max-width que la columna de texto de CaseStudyOrigin. */
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  max-width: 42rem;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--color-text-secondary);
+}

@@ -1,0 +1,31 @@
+/* Nodo de página compartido por /projects/elevate y /projects/flowly:
+   solo la barra de vuelta a proyectos. El resto de la composición visual
+   vive en cada sección (por ahora, CaseStudyHero.module.css). */
+.caseStudy {
+  /* Sin min-height:100dvh: forzaba pantalla completa aunque el Hero
+     ocupara mucho menos, dejando un tramo de negro vacío antes de la
+     siguiente sección. La altura real la da ahora el contenido de cada
+     sección (Hero incluido). */
+  padding-top: var(--header-height);
+  background-color: var(--color-bg);
+}
+
+.topBar {
+  /* Antes space-md (1.5rem): quedaba demasiado aire entre "Volver a
+     proyectos" y el Hero. */
+  padding-top: var(--space-xs);
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: color var(--transition-fast);
+}
+
+.back:hover {
+  color: var(--color-text-primary);
+}

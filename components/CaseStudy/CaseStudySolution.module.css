@@ -1,0 +1,117 @@
+/* "05. La solución", compartida entre Elevate y Flowly. Mismo criterio de
+   acento que el resto de secciones (--accent vía data-accent). Sección
+   deliberadamente más protagonista que las anteriores: la captura manda,
+   el texto se reduce a una columna estrecha a su lado. */
+.section {
+  background-color: var(--color-bg);
+}
+
+.section[data-accent="orange"] {
+  --accent: var(--color-accent-orange);
+}
+
+.section[data-accent="blue"] {
+  --accent: var(--color-accent-blue);
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  /* Mismo separador sutil y mismo ritmo vertical que las secciones
+     anteriores: continúa el sistema visual ya creado. */
+  padding-top: var(--space-xl);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  border-top: 1px solid var(--color-border);
+}
+
+.title {
+  font-size: clamp(1.5rem, 2.2vw, 1.85rem);
+  font-weight: 800;
+  color: var(--color-text-primary);
+}
+
+.number {
+  color: var(--accent);
+}
+
+/* Captura ~62% / columna de texto ~38%: la imagen es el elemento
+   protagonista de la sección, el texto queda deliberadamente secundario. */
+.body {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xl);
+}
+
+.visual {
+  flex: 1 1 62%;
+  min-width: 0;
+}
+
+/* Sin mockup, sin browser frame: solo un borde muy sutil + radio,
+   coherente con el resto de superficies del portfolio (mismo lenguaje
+   que .card en Projects.module.css), y sin glow -la propia interfaz ya
+   tiene contraste y color de sobra-. */
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.content {
+  flex: 1 1 38%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  /* Alineada con la parte superior de la captura, sin forzar altura
+     igual: si la lista es más corta que la imagen, el hueco sobrante se
+     queda debajo, no repartido. */
+  align-self: flex-start;
+}
+
+.intro {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+/* Lista compacta, no cards: icono + texto, poco espaciado vertical entre
+   filas -se lee como una lista limpia junto al producto, no como una
+   colección de bloques-. */
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  list-style: none;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 0.925rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.featureIcon {
+  flex-shrink: 0;
+  width: 1.1rem;
+  height: 1.1rem;
+  color: var(--accent);
+}
+
+/* Tablet/móvil: apila columnas, evita roturas graves (pasada específica
+   pendiente, igual que en el resto de secciones). */
+@media (max-width: 1024px) {
+  .body {
+    flex-direction: column;
+  }
+
+  .content {
+    align-self: stretch;
+  }
+}

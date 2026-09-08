@@ -1,0 +1,156 @@
+/* "12. Prueba <título>", compartida entre Elevate y Flowly. Mismo
+   criterio de acento que el resto de secciones (--accent vía
+   data-accent). Cierre práctico del case study: un único panel
+   protagonista (más presencia que las secciones anteriores), con el CTA
+   en acento y las credenciales de demo dentro, sin bordes/cards
+   anidados de más. */
+.section {
+  background-color: var(--color-bg);
+}
+
+.section[data-accent="orange"] {
+  --accent: var(--color-accent-orange);
+}
+
+.section[data-accent="blue"] {
+  --accent: var(--color-accent-blue);
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  /* Mismo separador sutil y mismo ritmo vertical que las secciones
+     anteriores: continúa el sistema visual ya creado. */
+  padding-top: var(--space-xl);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  border-top: 1px solid var(--color-border);
+}
+
+.title {
+  font-size: clamp(1.5rem, 2.2vw, 1.85rem);
+  font-weight: 800;
+  color: var(--color-text-primary);
+}
+
+.number {
+  color: var(--accent);
+}
+
+/* Único borde de todo el bloque: el panel es más protagonista que las
+   secciones anteriores (más padding, fondo propio), pero sigue siendo
+   una sola caja, no varias anidadas. */
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+.introText {
+  flex: 1 1 28rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-shrink: 0;
+  padding: 0.85rem 1.75rem;
+  border-radius: var(--radius-full);
+  background-color: var(--accent);
+  color: var(--color-bg);
+  font-size: 1rem;
+  font-weight: 700;
+  transition: opacity var(--transition-fast);
+}
+
+.cta:hover {
+  opacity: 0.88;
+}
+
+/* auto-fit en vez de repeat(3, ...): el número de columnas se adapta al
+   número real de credenciales (3 en Elevate, 4 en Flowly) sin dejar una
+   columna vacía a la derecha -mismo criterio que el grid de
+   CaseStudyObjectives/CaseStudyRoles/CaseStudyResult.module.css-. Con 3
+   items el resultado es idéntico a antes (auto-fit estira las 3
+   columnas a ancho completo); con 4 reparte 4 columnas iguales. */
+.credentials {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: var(--space-md);
+}
+
+/* Bloque compacto por rol: un único borde sutil (dentro de un panel que
+   ya tiene el suyo, pero es el que realmente diferencia cada rol de los
+   otros dos), sin icono. */
+.credentialCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-alt);
+}
+
+.credentialRole {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.credentialRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-size: 0.825rem;
+}
+
+.credentialLabel {
+  color: var(--color-text-secondary);
+}
+
+.credentialValue {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  overflow-wrap: anywhere;
+}
+
+.notice {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+
+/* Tablet/móvil: evita roturas graves (pasada específica pendiente, igual
+   que en el resto de secciones). */
+@media (max-width: 1024px) {
+  .credentials {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .intro {
+    align-items: flex-start;
+  }
+
+  .cta {
+    width: 100%;
+    justify-content: center;
+  }
+}

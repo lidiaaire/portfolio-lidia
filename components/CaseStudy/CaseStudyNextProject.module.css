@@ -1,0 +1,148 @@
+/* Cierre/navegación final del case study, compartida entre Elevate y
+   Flowly. Mismo criterio de acento que el resto de secciones (--accent
+   vía data-accent) -aquí usa el acento del proyecto ACTUAL (la página en
+   la que vive el bloque), no el del proyecto siguiente-.
+   Preview compacta de proyecto, no una sección protagonista: una única
+   card horizontal, misma familia visual que .card en
+   Projects.module.css (borde sutil, fondo --color-surface), pero mucho
+   más baja -navegación secundaria, no un cierre "hero"-. */
+.section {
+  background-color: var(--color-bg);
+  padding-top: var(--space-lg);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.section[data-accent="orange"] {
+  --accent: var(--color-accent-orange);
+}
+
+.section[data-accent="blue"] {
+  --accent: var(--color-accent-blue);
+}
+
+/* Toda la card es el enlace: fila [texto | flecha | imagen], recortada
+   (overflow:hidden) para que la imagen respete el border-radius exterior
+   y llegue justo hasta el borde derecho, sin marco propio. */
+.card {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  height: clamp(9rem, 12vw, 11rem);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  overflow: hidden;
+  transition: border-color var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+.card:hover {
+  border-color: var(--color-text-secondary);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.3rem;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: var(--space-md) var(--space-lg);
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-text-secondary);
+}
+
+/* Jerarquía moderada a propósito: navegación secundaria, no un heading
+   de sección (nada que ver con .title de las 12 secciones anteriores). */
+.title {
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--color-text-primary);
+}
+
+.description {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  /* Una sola línea: en una card de 9-11rem de alto no hay sitio para un
+     párrafo completo sin desequilibrar la fila. */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Solo un indicador de navegación, no un botón: sin fondo ni borde
+   propios. margin-right la separa de la preview -sin él quedaba pegada
+   al borde de la imagen; ahora se lee "texto → preview", no
+   "texto →|imagen"-. */
+.arrow {
+  flex-shrink: 0;
+  align-self: center;
+  margin-right: var(--space-md);
+  font-size: 1.5rem;
+  color: var(--accent);
+  transition: transform var(--transition-fast);
+}
+
+.card:hover .arrow,
+.card:focus-visible .arrow {
+  transform: translateX(0.3rem);
+}
+
+/* ~31% del ancho de la card, imagen recortada dentro (cover): llega
+   hasta el borde derecho de la card, que ya la recorta con su propio
+   border-radius + overflow:hidden -sin marco ni radio propios en la
+   imagen-. Más presencia horizontal que antes (28% → 31%), sin tocar la
+   altura de la card. */
+.visual {
+  position: relative;
+  flex: 0 0 31%;
+  min-width: 9rem;
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+  transition: transform var(--transition-fast);
+}
+
+.card:hover .image,
+.card:focus-visible .image {
+  /* Extremadamente sutil a propósito: solo una señal de interactividad,
+     no un efecto decorativo. */
+  transform: scale(1.03);
+}
+
+/* Móvil: la card se reorganiza (imagen debajo del texto) pero se
+   mantiene compacta -nada de convertirla en una sección grande-. */
+@media (max-width: 700px) {
+  .card {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .text {
+    padding: var(--space-md);
+  }
+
+  .arrow {
+    display: none;
+  }
+
+  .visual {
+    flex: 0 0 auto;
+    width: 100%;
+    height: 7rem;
+  }
+}

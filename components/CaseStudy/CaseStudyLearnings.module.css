@@ -1,0 +1,77 @@
+/* "11. Lo que aprendí", compartida entre Elevate y Flowly. Mismo criterio
+   de acento que el resto de secciones (--accent vía data-accent). Más
+   editorial que visual: card con fondo/borde muy sutiles solo para
+   diferenciar los 3 bloques, sin icono, sin número grande, sin sombra. */
+.section {
+  background-color: var(--color-bg);
+}
+
+.section[data-accent="orange"] {
+  --accent: var(--color-accent-orange);
+}
+
+.section[data-accent="blue"] {
+  --accent: var(--color-accent-blue);
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  /* Mismo separador sutil y mismo ritmo vertical que las secciones
+     anteriores: continúa el sistema visual ya creado. */
+  padding-top: var(--space-xl);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  border-top: 1px solid var(--color-border);
+}
+
+.title {
+  font-size: clamp(1.5rem, 2.2vw, 1.85rem);
+  font-weight: 800;
+  color: var(--color-text-primary);
+}
+
+.number {
+  color: var(--accent);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+
+/* Fondo/borde muy sutiles, solo para separar los 3 bloques -sin la
+   presencia de .card en CaseStudyObjectives/CaseStudyRoles (ahí hay
+   icono; aquí no)-. Más aire vertical (padding-lg) para que el texto
+   respire como un párrafo, no como una card compacta. */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.cardTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--color-text-primary);
+}
+
+.cardDescription {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--color-text-secondary);
+}
+
+/* Tablet/móvil: evita roturas graves (pasada específica pendiente, igual
+   que en el resto de secciones). */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

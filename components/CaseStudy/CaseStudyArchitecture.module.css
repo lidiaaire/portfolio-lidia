@@ -1,0 +1,149 @@
+/* "08. Arquitectura técnica", compartida entre Elevate y Flowly. Mismo
+   criterio de acento que el resto de secciones (--accent vía
+   data-accent). Aspecto de diagrama técnico sencillo -bloques + flechas
+   en una fila-, no de infografía: sin logos grandes, sin degradados. */
+.section {
+  background-color: var(--color-bg);
+}
+
+.section[data-accent="orange"] {
+  --accent: var(--color-accent-orange);
+}
+
+.section[data-accent="blue"] {
+  --accent: var(--color-accent-blue);
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  /* Mismo separador sutil y mismo ritmo vertical que las secciones
+     anteriores: continúa el sistema visual ya creado. */
+  padding-top: var(--space-xl);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  border-top: 1px solid var(--color-border);
+}
+
+.title {
+  font-size: clamp(1.5rem, 2.2vw, 1.85rem);
+  font-weight: 800;
+  color: var(--color-text-primary);
+}
+
+.number {
+  color: var(--accent);
+}
+
+/* Flujo horizontal: 4 bloques + 3 conectores, cada grupo bloque+flecha
+   reparte el ancho a partes iguales (flex:1) salvo el último grupo, sin
+   flecha, que ocupa la mitad de espacio (solo el bloque). */
+.flow {
+  display: flex;
+  align-items: center;
+}
+
+.layerGroup {
+  display: flex;
+  align-items: center;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.layerGroup:last-child {
+  flex: 0 1 auto;
+}
+
+.layer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: var(--space-md) var(--space-sm);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  text-align: center;
+}
+
+.layerLabel {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.layerTech {
+  font-size: 0.8rem;
+  color: var(--accent);
+}
+
+.connector {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-inline: var(--space-xs);
+  color: var(--color-text-secondary);
+}
+
+/* Banda de autenticación: visualmente más ligera que .layer -sin caja
+   propia, solo un borde superior fino que la separa del flujo- para
+   quedar clara como capacidad transversal, no como un quinto bloque. */
+.auth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+  text-align: center;
+}
+
+.authIcon {
+  flex-shrink: 0;
+  width: 1.1rem;
+  height: 1.1rem;
+  color: var(--accent);
+}
+
+.authLabel {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.authTech {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+/* Tablet/móvil: el flujo pasa a columna (flechas giran 90°), evita
+   roturas graves (pasada específica pendiente, igual que en el resto de
+   secciones). */
+@media (max-width: 700px) {
+  .flow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .layerGroup {
+    flex-direction: column;
+  }
+
+  .layerGroup:last-child {
+    flex: 1 1 auto;
+  }
+
+  .connector {
+    margin-inline: 0;
+    margin-block: var(--space-xs);
+    transform: rotate(90deg);
+    align-self: center;
+  }
+
+  .auth {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+}

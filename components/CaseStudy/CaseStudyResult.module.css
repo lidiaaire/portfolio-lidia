@@ -1,0 +1,100 @@
+/* "10. Resultado", compartida entre Elevate y Flowly. Mismo criterio de
+   acento que el resto de secciones (--accent vía data-accent). Fila de
+   métricas muy limpia y cuantitativa: sin card, sin icono, solo el
+   número (protagonista, en acento) y su label debajo -mismo lenguaje de
+   separador vertical sutil que CaseStudyDesignDecisions/
+   CaseStudyTechnicalChallenges-. */
+.section {
+  background-color: var(--color-bg);
+}
+
+.section[data-accent="orange"] {
+  --accent: var(--color-accent-orange);
+}
+
+.section[data-accent="blue"] {
+  --accent: var(--color-accent-blue);
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  /* Mismo separador sutil y mismo ritmo vertical que las secciones
+     anteriores: continúa el sistema visual ya creado. */
+  padding-top: var(--space-xl);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  border-top: 1px solid var(--color-border);
+}
+
+.title {
+  font-size: clamp(1.5rem, 2.2vw, 1.85rem);
+  font-weight: 800;
+  color: var(--color-text-primary);
+}
+
+.number {
+  color: var(--accent);
+}
+
+/* auto-fit en vez de repeat(5, ...): el número de columnas se adapta al
+   número real de métricas (5 en Elevate, 4 en Flowly) sin dejar una
+   columna vacía a la derecha -mismo criterio que el grid de
+   CaseStudyObjectives.module.css/CaseStudyRoles.module.css-. Con 5 items
+   el resultado es idéntico a antes (auto-fit estira las 5 columnas a
+   ancho completo); con 4 reparte 4 columnas iguales.  */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: var(--space-md);
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding-left: var(--space-md);
+  border-left: 1px solid var(--color-border);
+  text-align: center;
+}
+
+.item:first-child {
+  padding-left: 0;
+  border-left: none;
+}
+
+/* El número es el elemento protagonista de la sección: tamaño claramente
+   mayor que cualquier título del resto de secciones. */
+.value {
+  font-size: clamp(2.25rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.label {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+/* Tablet/móvil: evita roturas graves (pasada específica pendiente, igual
+   que en el resto de secciones). Sin separador vertical cuando la fila
+   se apila. */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: var(--space-lg);
+  }
+
+  .item {
+    padding-left: 0;
+    border-left: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

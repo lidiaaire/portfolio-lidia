@@ -1,0 +1,213 @@
+/* Hero de caso de estudio, compartido entre Elevate y Flowly. Todo el
+   color de identidad del proyecto pasa por una única variable local
+   (--accent), resuelta a partir de data-accent en la raíz: el resto de
+   reglas de este archivo no vuelven a mencionar "orange"/"blue", así que
+   Flowly hereda exactamente el mismo CSS sin tocar una sola línea. */
+.hero {
+  position: relative;
+  background-color: var(--color-bg);
+  overflow: hidden;
+}
+
+.hero[data-accent="orange"] {
+  --accent: var(--color-accent-orange);
+}
+
+.hero[data-accent="blue"] {
+  --accent: var(--color-accent-blue);
+}
+
+/* Dos columnas ~40/60: texto con margen de maniobra (40-45% pedido) y
+   producto protagonista a la derecha. Centrado verticalmente para que el
+   Hero tenga presencia sin depender de una altura de viewport fija. Sin
+   min-height: la altura la marca el contenido + este padding-block, así
+   la sección siguiente puede empezar justo después, no a una pantalla
+   completa de distancia. Gap reducido respecto a la iteración anterior
+   (space-2xl → space-xl): cede ancho real a .visual en vez de perderlo
+   en el hueco entre columnas. */
+.inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xl);
+  padding-block: clamp(1.25rem, 2.5vw, 2rem) clamp(2rem, 4vw, 3rem);
+}
+
+.content {
+  flex: 1 1 40%;
+  max-width: 33rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+}
+
+.title {
+  font-weight: 800;
+  font-size: clamp(3rem, 5vw, 4.5rem);
+  line-height: 1.05;
+  color: var(--color-text-primary);
+}
+
+.claim {
+  font-size: 1.45rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--color-text-primary);
+  max-width: 30rem;
+}
+
+.description {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  max-width: 30rem;
+}
+
+/* Metadata compacta: fila de bloques label/value, no una lista de card
+   -misma familia visual que .techPill de Projects, pero sin píldora-. */
+.metadata {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-lg);
+  margin-top: var(--space-xs);
+  padding-block: var(--space-sm);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  width: 100%;
+}
+
+.metadataItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.metadataLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+}
+
+.metadataValue {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+}
+
+.primaryButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.85rem 1.75rem;
+  border-radius: var(--radius-full);
+  background-color: var(--accent);
+  color: var(--color-bg);
+  font-size: 1rem;
+  font-weight: 700;
+  transition: opacity var(--transition-fast);
+}
+
+.primaryButton:hover {
+  opacity: 0.88;
+}
+
+.secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.85rem 1.75rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  font-size: 1rem;
+  font-weight: 700;
+  transition: border-color var(--transition-fast);
+}
+
+.secondaryButton:hover {
+  border-color: var(--color-text-secondary);
+}
+
+/* ---------- Visual del producto ----------
+   Mismo criterio que .visual en Projects.module.css: el asset ya trae su
+   propio glow horneado, así que el contenedor no añade marco, fondo ni
+   sombra propios -solo un glow ADICIONAL, muy sutil, detrás de la imagen,
+   para integrarla en el Hero en vez de dejarla flotando sobre negro
+   plano-. */
+.visual {
+  flex: 1 1 60%;
+  display: flex;
+  justify-content: center;
+}
+
+.visualFrame {
+  position: relative;
+  width: 100%;
+  /* Antes 42.5rem: el flex-basis de .visual ya reparte el 60% real del
+     ancho disponible, este max-width solo actúa de tope en pantallas muy
+     anchas -subirlo deja que el producto se acerque al tamaño de una
+     presentación de producto, sin recortarse (aspect-ratio 1/1 intacto,
+     mismo asset cuadrado). */
+  max-width: 52rem;
+  aspect-ratio: 1 / 1;
+}
+
+.visualFrame::before {
+  content: "";
+  position: absolute;
+  /* Glow adicional más contenido que antes (22% → 14%, -10% → -6% de
+     spread): el PNG ya trae su propio glow horneado, este solo debe
+     ayudar a integrar el recuadro en el fondo del Hero, no competir con
+     el del asset. */
+  inset: -6%;
+  z-index: 0;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--accent) 14%, transparent) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.visualImage {
+  position: relative;
+  z-index: 1;
+  object-fit: contain;
+}
+
+/* Tablet/móvil: apila columnas y evita roturas graves, sin rediseñar la
+   composición (pendiente de una pasada específica más adelante). */
+@media (max-width: 1024px) {
+  .inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .content {
+    max-width: none;
+  }
+
+  .visual {
+    justify-content: center;
+  }
+
+  .visualFrame {
+    max-width: 26rem;
+  }
+}

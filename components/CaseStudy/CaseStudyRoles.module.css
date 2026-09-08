@@ -1,0 +1,112 @@
+/* "04. Usuarios y roles", compartida entre Elevate y Flowly. Mismo
+   criterio de acento que el resto de secciones (--accent vía
+   data-accent). Grid de 3 cards con el mismo peso visual -mismo tamaño,
+   mismo icono en acento, sin jerarquía entre roles-, algo más amplias
+   que las de Objetivos porque aquí el texto pesa más. */
+.section {
+  background-color: var(--color-bg);
+}
+
+.section[data-accent="orange"] {
+  --accent: var(--color-accent-orange);
+}
+
+.section[data-accent="blue"] {
+  --accent: var(--color-accent-blue);
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  /* Mismo separador sutil y mismo ritmo vertical que las secciones
+     anteriores: continúa el sistema visual ya creado. */
+  padding-top: var(--space-xl);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  border-top: 1px solid var(--color-border);
+}
+
+.title {
+  font-size: clamp(1.5rem, 2.2vw, 1.85rem);
+  font-weight: 800;
+  color: var(--color-text-primary);
+}
+
+.number {
+  color: var(--accent);
+}
+
+/* auto-fit en vez de repeat(3, ...): el número de columnas se adapta al
+   número real de roles (3 en Elevate, 4 en Flowly) sin que ninguna card
+   quede huérfana en una fila propia -mismo criterio que el grid de
+   CaseStudyObjectives.module.css-. Con 3 items el resultado es idéntico
+   a antes (auto-fit colapsa la columna vacía y estira las 3 restantes a
+   partes iguales); con 4 items reparte 4 columnas iguales. */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: var(--space-md);
+}
+
+/* Misma familia visual que .card en CaseStudyObjectives.module.css
+   (borde sutil, fondo apenas diferenciado, hover ligero en border-color),
+   pero con más padding: aquí el texto tiene más peso que en Objetivos y
+   las 3 cards pueden respirar más. */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  transition: border-color var(--transition-fast);
+}
+
+.card:hover {
+  border-color: var(--color-text-secondary);
+}
+
+.iconWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-md);
+  border: 1.5px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  background-color: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  color: var(--accent);
+}
+
+.cardTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-text-primary);
+}
+
+.cardDescription {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+/* Tablet/móvil: evita roturas graves (pasada específica pendiente, igual
+   que en el resto de secciones). */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

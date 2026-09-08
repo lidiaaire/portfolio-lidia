@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import styles from "./Projects.module.css";
 
@@ -18,7 +19,7 @@ const PROJECTS = [
     title: "Elevate",
     technologies: ["Next.js", "React", "Node.js", "Express", "MongoDB"],
     accent: "orange",
-    href: "#",
+    href: "/projects/elevate",
     image: "/images/projects/elevate-dashboard.png",
     imageAlt: "Panel de Elevate mostrando el progreso de un alumno de inglés",
   },
@@ -28,7 +29,7 @@ const PROJECTS = [
     title: "Flowly",
     technologies: ["React", "Node.js", "Express", "MongoDB", "REST APIs"],
     accent: "blue",
-    href: "#",
+    href: "/projects/flowly",
     image: "/images/projects/flowly-dashboard.png",
     imageAlt: "Panel de Flowly mostrando la gestión de solicitudes sanitarias",
   },
@@ -94,10 +95,10 @@ export default function Projects() {
                       ))}
                     </ul>
 
-                    <a href={project.href} className={styles.button}>
+                    <Link href={project.href} className={styles.button}>
                       {projects.viewProject}
                       <span aria-hidden="true">↗</span>
-                    </a>
+                    </Link>
                   </div>
 
                   {/* Bloque visual cuadrado: la propia imagen ya es la
