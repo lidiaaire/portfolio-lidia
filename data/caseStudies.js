@@ -88,7 +88,7 @@ const CASE_STUDIES = {
     // "Abrir demo" en "12. Prueba Elevate" (CaseStudyTryDemo). demoUrl
     // apunta directo a /login (la app exige sesión iniciada).
     demoUrl: "https://elevate-campus-six.vercel.app/login",
-    githubUrl: "https://github.com/lidiaaire/proyect_academy",
+    githubUrl: "https://github.com/lidiaaire/elevate-campus",
     // Cierre/navegación final del case study: qué slug viene "después"
     // de este, resuelto por dato en vez de hardcodeado en CaseStudy.js.
     // CaseStudyNextProject reutiliza title/id de CASE_STUDIES[nextProject]
@@ -182,7 +182,7 @@ const CASE_STUDIES = {
     // (CaseStudyTryDemo) -mismo dato, un único sitio-. Apunta directo a
     // /login (no a la raíz) porque la app exige sesión iniciada.
     demoUrl: "https://flowly-medical.vercel.app/login",
-    githubUrl: "https://github.com/lidiaaire/proyect_final_bootcamp",
+    githubUrl: "https://github.com/lidiaaire/flowly",
     // Cierre/navegación final: cierra el ciclo con Elevate (que ya
     // define nextProject: "flowly" más arriba). Mismo mecanismo, sin
     // tocar CaseStudy.js -ya renderiza este componente para cualquier
