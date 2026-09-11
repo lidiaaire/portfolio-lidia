@@ -1,7 +1,8 @@
 /* Cierre/navegación final del case study, compartida entre Elevate y
    Flowly. Mismo criterio de acento que el resto de secciones (--accent
-   vía data-accent) -aquí usa el acento del proyecto ACTUAL (la página en
-   la que vive el bloque), no el del proyecto siguiente-.
+   vía data-accent) -aquí usa el acento del proyecto ENLAZADO (el destino
+   de la card), no el de la página actual: es una preview de "lo
+   siguiente", coloreada como ese destino-.
    Preview compacta de proyecto, no una sección protagonista: una única
    card horizontal, misma familia visual que .card en
    Projects.module.css (borde sutil, fondo --color-surface), pero mucho
@@ -16,8 +17,8 @@
   --accent: var(--color-accent-orange);
 }
 
-.section[data-accent="blue"] {
-  --accent: var(--color-accent-blue);
+.section[data-accent="lime"] {
+  --accent: var(--color-accent-lime);
 }
 
 /* Toda la card es el enlace: fila [texto | flecha | imagen], recortada
@@ -33,11 +34,18 @@
   background-color: var(--color-surface);
   overflow: hidden;
   transition: border-color var(--transition-fast),
-    background-color var(--transition-fast);
+    background-color var(--transition-fast), transform var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
+/* Hover deliberadamente discreto: borde con un tinte del accent del
+   proyecto (nunca el color plano, siempre mezclado con el borde base) +
+   una elevación mínima. Nada de glow fuerte ni cambio de fondo. */
 .card:hover {
-  border-color: var(--color-text-secondary);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--color-border));
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -18px
+    color-mix(in srgb, var(--accent) 40%, transparent);
 }
 
 .card:focus-visible {
@@ -124,6 +132,17 @@
   transform: scale(1.03);
 }
 
+/* Funde la preview hacia el fondo de la card (mismo --color-surface, no
+   un color nuevo) en vez de terminar en un corte seco contra el texto:
+   la imagen "emerge" de la propia card. Puramente decorativo -aria-hidden
+   en el JSX-, no reacciona al hover. */
+.imageMask {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, var(--color-surface) 0%, transparent 42%);
+  pointer-events: none;
+}
+
 /* Móvil: la card se reorganiza (imagen debajo del texto) pero se
    mantiene compacta -nada de convertirla en una sección grande-. */
 @media (max-width: 700px) {
@@ -144,5 +163,12 @@
     flex: 0 0 auto;
     width: 100%;
     height: 7rem;
+  }
+
+  /* La imagen pasa a estar debajo del texto: el fundido cambia de
+     lateral (hacia el texto de la izquierda) a superior (hacia el
+     bloque de texto que ahora queda encima). */
+  .imageMask {
+    background: linear-gradient(to bottom, var(--color-surface) 0%, transparent 35%);
   }
 }

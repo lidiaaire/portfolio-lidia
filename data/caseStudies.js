@@ -23,6 +23,13 @@ const CASE_STUDIES = {
     // Hero): un dashboard real de la plataforma, sin glow ni retoque
     // horneados en el propio PNG -el CSS no debe añadir ninguno fuerte-.
     solutionImage: "/images/case-studies/elevate/elevate-screenshot.png",
+    // Preview de la card "Siguiente/anterior proyecto" (CaseStudyNextProject):
+    // recorte propio 1536×600 (misma proporción que esa caja, ~2.56:1) de
+    // elevate-screenshot.png, encuadrado a propósito en logo + saludo +
+    // progreso -no el cuadrado de Hero ni un cover centrado al azar sobre
+    // un asset con otra proporción-. Opcional: si faltara, el componente
+    // cae de vuelta a "image".
+    nextProjectImage: "/images/case-studies/elevate/elevate-nextproject.png",
     // Un slot de imagen por funcionalidad destacada (sección "06."),
     // claveado por id (mismo id que caseStudy.elevate.featureHighlights en
     // los locales, así el componente cruza título/descripción con imagen
@@ -69,15 +76,19 @@ const CASE_STUDIES = {
     // "Teacher"/"Admin" no se traducen). email/password siguen en null a
     // propósito -no se inventan credenciales-: CaseStudyTryDemo debe
     // mostrar un placeholder neutro (texto "pendiente", nunca un valor
-    // falso) mientras sigan así. demoUrl (ya definido arriba, todavía
-    // "#") es el mismo enlace que reutiliza el CTA de esta sección.
+    // falso) mientras sigan así. demoUrl (ya definido arriba) es el mismo
+    // enlace que reutiliza el CTA de esta sección.
     demoCredentials: [
       { role: "Student", email: null, password: null },
       { role: "Teacher", email: null, password: null },
       { role: "Admin", email: null, password: null },
     ],
-    demoUrl: "#",
-    githubUrl: "#",
+    // Demo real desplegada y repo real: mismo dato reutilizado por el
+    // botón "Ver demo"/"Ver en GitHub" del Hero (CaseStudyHero) y por
+    // "Abrir demo" en "12. Prueba Elevate" (CaseStudyTryDemo). demoUrl
+    // apunta directo a /login (la app exige sesión iniciada).
+    demoUrl: "https://elevate-campus-six.vercel.app/login",
+    githubUrl: "https://github.com/lidiaaire/proyect_academy",
     // Cierre/navegación final del case study: qué slug viene "después"
     // de este, resuelto por dato en vez de hardcodeado en CaseStudy.js.
     // CaseStudyNextProject reutiliza title/id de CASE_STUDIES[nextProject]
@@ -88,29 +99,45 @@ const CASE_STUDIES = {
   flowly: {
     id: "flowly",
     title: "Flowly",
-    accent: "blue",
+    // Verde lima real del producto (--color-accent-lime en globals.css),
+    // no azul/cyan: todo el sistema de secciones lee este campo vía
+    // data-accent, así que el cambio de identidad vive solo aquí.
+    accent: "lime",
     technologies: ["React", "Node.js", "Express", "MongoDB", "REST APIs"],
     primaryStack: ["React", "Node.js", "MongoDB"],
-    image: "/images/projects/flowly-dashboard.png",
-    // "05. La solución": todavía no existe una captura dedicada a esta
-    // sección (a diferencia de Elevate, que tiene elevate-screenshot.png).
-    // Se reutiliza el mismo asset que ya usa el Hero/la landing -provisional
-    // a propósito, no se genera ni se inventa uno nuevo-. Dimensiones
-    // reales del PNG (1254×1254, cuadrado, distinto del 1536×1024 de
-    // Elevate): CaseStudySolution las necesita para no forzar la imagen a
-    // la proporción de Elevate.
-    solutionImage: "/images/projects/flowly-dashboard.png",
-    solutionImageWidth: 1254,
-    solutionImageHeight: 1254,
-    // "06. Funcionalidades destacadas": mismo patrón que
-    // elevate.featureHighlightImages -null a propósito, mismo criterio
-    // (Flowly tendrá su propio sprint de mejora visual más adelante; no
-    // se reutiliza flowly-dashboard.png cuatro veces ni se inventa nada)-.
+    // Captura definitiva del Hero: dashboard real (rol Prestaciones),
+    // Playwright a 1536×1024. Sustituye al placeholder cuadrado anterior
+    // (flowly-dashboard.png 1254×1254) -CaseStudyHero sigue asumiendo un
+    // marco cuadrado (aspect-ratio 1/1, object-fit:contain), así que esta
+    // imagen 3:2 queda centrada con un margen vertical sutil en vez de
+    // recortarse; ninguna fila de KPI/tabla queda cortada a medias.
+    image: "/images/case-studies/flowly/flowly-hero.png",
+    // "05. La solución": captura panorámica real del dashboard completo
+    // (Playwright full-page, mismo rol/sesión que el Hero): navegación,
+    // KPIs, bandeja de trabajo y ambas visualizaciones (estado por
+    // solicitud + solicitudes por área). Dimensiones reales del PNG
+    // -CaseStudySolution las necesita para no forzar la proporción de
+    // Elevate (1536×1024)-.
+    solutionImage: "/images/case-studies/flowly/flowly-solution.png",
+    solutionImageWidth: 1536,
+    solutionImageHeight: 1579,
+    // Preview de la card "Siguiente/anterior proyecto" (CaseStudyNextProject):
+    // mismo criterio que elevate.nextProjectImage -recorte propio 1536×600
+    // de flowly-hero.png, encuadrado en logo + KPIs en vez de un cover
+    // centrado sobre el 3:2 completo (eso cortaba la franja a media altura
+    // de forma poco intencional).
+    nextProjectImage: "/images/case-studies/flowly/flowly-nextproject.png",
+    // "06. Funcionalidades destacadas": 4 capturas reales del producto,
+    // cada una del rol/estado que mejor explica esa funcionalidad (no
+    // siempre el mismo rol que el Hero -ver conversación de captura):
+    // dashboard/requests con Prestaciones, workflow con Dirección Médica
+    // (caso a su cargo, con acción disponible), history con Admin (caso
+    // ya resuelto, historial completo visible sin restricción de rol).
     featureHighlightImages: {
-      dashboard: null,
-      requests: null,
-      workflow: null,
-      history: null,
+      dashboard: "/images/case-studies/flowly/flowly-dashboard.png",
+      requests: "/images/case-studies/flowly/flowly-requests.png",
+      workflow: "/images/case-studies/flowly/flowly-workflow.png",
+      history: "/images/case-studies/flowly/flowly-history.png",
     },
     // Arquitectura técnica de "08.": mismo shape que
     // elevate.architecture.layers (dato técnico, no narrativo). Solo el
@@ -150,8 +177,12 @@ const CASE_STUDIES = {
       { role: "ASESORIA_JURIDICA", email: null, password: null },
       { role: "ADMIN", email: null, password: null },
     ],
-    demoUrl: "#",
-    githubUrl: "#",
+    // Demo real desplegada: reutilizada tanto por el botón "Ver demo" del
+    // Hero (CaseStudyHero) como por "Abrir demo" en "12. Prueba Flowly"
+    // (CaseStudyTryDemo) -mismo dato, un único sitio-. Apunta directo a
+    // /login (no a la raíz) porque la app exige sesión iniciada.
+    demoUrl: "https://flowly-medical.vercel.app/login",
+    githubUrl: "https://github.com/lidiaaire/proyect_final_bootcamp",
     // Cierre/navegación final: cierra el ciclo con Elevate (que ya
     // define nextProject: "flowly" más arriba). Mismo mecanismo, sin
     // tocar CaseStudy.js -ya renderiza este componente para cualquier

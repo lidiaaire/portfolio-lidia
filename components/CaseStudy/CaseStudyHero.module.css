@@ -13,8 +13,8 @@
   --accent: var(--color-accent-orange);
 }
 
-.hero[data-accent="blue"] {
-  --accent: var(--color-accent-blue);
+.hero[data-accent="lime"] {
+  --accent: var(--color-accent-lime);
 }
 
 /* Dos columnas ~40/60: texto con margen de maniobra (40-45% pedido) y

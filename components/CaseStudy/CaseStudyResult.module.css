@@ -12,8 +12,8 @@
   --accent: var(--color-accent-orange);
 }
 
-.section[data-accent="blue"] {
-  --accent: var(--color-accent-blue);
+.section[data-accent="lime"] {
+  --accent: var(--color-accent-lime);
 }
 
 .inner {
@@ -67,15 +67,22 @@
 /* El número es el elemento protagonista de la sección: tamaño claramente
    mayor que cualquier título del resto de secciones. */
 .value {
-  font-size: clamp(2.25rem, 4vw, 3rem);
+  font-size: clamp(1.75rem, 6vw, 3rem);
   font-weight: 800;
-  line-height: 1;
+  line-height: 1.05;
   color: var(--accent);
+  /* Algunos valores de Flowly son texto descriptivo, no un número corto
+     ("Multiestado"): una sola palabra larga no tiene dónde hacer wrap
+     por defecto y podía desbordar la columna en móviles estrechos (2
+     columnas a partir de 700px). overflow-wrap permite partirla si hace
+     falta -no cambia nada en los valores numéricos cortos de Elevate-. */
+  overflow-wrap: anywhere;
 }
 
 .label {
   font-size: 0.85rem;
   color: var(--color-text-secondary);
+  overflow-wrap: anywhere;
 }
 
 /* Tablet/móvil: evita roturas graves (pasada específica pendiente, igual

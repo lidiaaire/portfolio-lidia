@@ -28,9 +28,17 @@ const PROJECTS = [
     number: "02",
     title: "Flowly",
     technologies: ["React", "Node.js", "Express", "MongoDB", "REST APIs"],
-    accent: "blue",
+    // Verde lima real del producto (--color-accent-lime en globals.css),
+    // no azul/cyan -mismo criterio que data/caseStudies.js: el color de
+    // identidad se lee de este dato, nunca hardcodeado en el CSS-.
+    accent: "lime",
     href: "/projects/flowly",
-    image: "/images/projects/flowly-dashboard.png",
+    // Captura real del dashboard (Playwright, misma sesión que el resto
+    // de assets nuevos), no el placeholder cyan anterior. Recorte propio
+    // cuadrado 1536×1536 -flowly-hero.png es 3:2, no cuadrado- pensado
+    // para esta caja (aspect-ratio 1/1, object-fit:contain): logo, KPIs,
+    // bandeja y ambos gráficos, nada cortado a medias.
+    image: "/images/case-studies/flowly/flowly-home-preview.png",
     imageAlt: "Panel de Flowly mostrando la gestión de solicitudes sanitarias",
   },
 ];

@@ -16,6 +16,12 @@
   --color-accent-pink: #ff4d9d;
   --color-accent-yellow: #ffd23f;
   --color-accent-blue: #3fd7ff;
+  /* Verde lima de Flowly: muestreado del propio producto (botón primario
+     y estado activo del sidebar en las capturas reales), no inventado.
+     Sustituye a --color-accent-blue como acento del proyecto -esa
+     variable se queda intacta porque la siguen usando otros bloques del
+     portfolio sin relación con Flowly (Hero, About, Contact, Beyond...). */
+  --color-accent-lime: #c7f36e;
 
   /* Radios */
   --radius-sm: 6px;
@@ -70,6 +76,16 @@ html {
   height: 100%;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  /* Raíz real del scroll horizontal: un descendiente decorativo mucho más
+     ancho que el viewport (p. ej. la pared tipográfica del Hero) queda
+     recortado VISUALMENTE por su propio overflow:hidden, pero ese recorte
+     no impide que su caja de layout siga contribuyendo al scrollWidth del
+     documento -overflow:hidden en un ancestor intermedio no "contiene" el
+     overflow de cara al elemento raíz-. overflow-x:clip aquí sí lo hace:
+     ningún hijo, por ancho que sea, puede generar scroll horizontal de
+     página. body.overflow-x:hidden (abajo) se mantiene como refuerzo, pero
+     el que de verdad corta la raíz es este. */
+  overflow-x: clip;
 }
 
 body {

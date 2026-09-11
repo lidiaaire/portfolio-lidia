@@ -77,11 +77,26 @@
   gap: var(--space-lg);
 }
 
+/* Móvil: 1 columna. Tablet sigue en 2 (min-height se retira ahí, ver
+   media query de abajo: a 2 columnas estrechas el contenido real puede
+   necesitar más alto que el que pedía en desktop, y min-height no debe
+   dejar hueco vacío de más). */
+@media (max-width: 700px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .card {
   /* Sin altura fija: min-height marca el punto de partida (520-560px);
      si el contenido real necesitara más, la card crece con él -no hay
      overflow:hidden en .card, así nunca se recorta nada-. */
   position: relative;
+  /* Contenedor de tamaño: .cardBody decide más abajo (@container) si se
+     apila según el ancho REAL de la card, no el del viewport -así
+     funciona igual de bien con 1 o 2 columnas de grid, sin depender de
+     adivinar a qué breakpoint de página corresponde cada caso-. */
+  container-type: inline-size;
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
@@ -90,6 +105,12 @@
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
   background-color: var(--color-surface);
+}
+
+@media (max-width: 700px) {
+  .card {
+    min-height: 0;
+  }
 }
 
 /* Acento de borde discreto (no la card entera): un tramo corto de 3px en
@@ -109,8 +130,8 @@
   background-color: var(--color-accent-orange);
 }
 
-.card[data-accent="blue"]::before {
-  background-color: var(--color-accent-blue);
+.card[data-accent="lime"]::before {
+  background-color: var(--color-accent-lime);
 }
 
 .cardBody {
@@ -153,8 +174,8 @@
   color: var(--color-accent-orange);
 }
 
-.card[data-accent="blue"] .number {
-  color: var(--color-accent-blue);
+.card[data-accent="lime"] .number {
+  color: var(--color-accent-lime);
 }
 
 .category {
@@ -181,8 +202,8 @@
   background-color: var(--color-accent-orange);
 }
 
-.card[data-accent="blue"] .titleDot {
-  background-color: var(--color-accent-blue);
+.card[data-accent="lime"] .titleDot {
+  background-color: var(--color-accent-lime);
 }
 
 .subtitle {
@@ -269,8 +290,8 @@
   background-color: var(--color-accent-orange);
 }
 
-.card[data-accent="blue"] .button {
-  background-color: var(--color-accent-blue);
+.card[data-accent="lime"] .button {
+  background-color: var(--color-accent-lime);
 }
 
 /* ---------- Visual del proyecto ----------
@@ -306,16 +327,11 @@
   padding: 6%;
 }
 
-/* Ajuste exclusivo de Flowly: sus tonos oscuros le restan presencia
-   frente al naranja/cálido de Elevate a igualdad de tamaño de caja. Un
-   scale() sobre .visual (no sobre .card ni sobre el layout) aumenta el
-   tamaño percibido sin tocar flex-basis/aspect-ratio compartidos -así
-   Elevate queda intacto-, y un margin-left negativo lo acerca un poco al
-   bloque de texto. */
-.card[data-accent="blue"] .visual {
-  transform: scale(1.12);
-  margin-left: calc(var(--space-lg) * -0.3);
-}
+/* El scale(1.12) exclusivo de Flowly que vivía aquí compensaba la escasa
+   presencia del placeholder oscuro anterior. El asset real (captura del
+   producto, no un mockup apagado) ya tiene presencia propia a la misma
+   caja que Elevate -mismo tamaño y proporción para los dos, sin ajustes
+   por proyecto-, así que el hack se retira en vez de renombrarse. */
 
 .visualImage {
   /* contain: el asset es 1:1 real y el contenedor también es 1:1, así
@@ -323,4 +339,40 @@
      propio PNG respire hasta el borde del contenedor. Sin deformación
      posible: object-fit nunca estira la imagen. */
   object-fit: contain;
+}
+
+/* ---------- Card estrecha: texto e imagen se apilan ----------
+   .cardBody reparte 40/62 en fila (.content + .visual), pensado para el
+   ancho de una card en un grid de 2 columnas en desktop (~650-700px+).
+   Con la misma card más estrecha (2 columnas en tablet, o 1 columna en
+   móvil pero con el propio viewport pequeño) ese reparto deja columnas
+   de ~90-160px -título cortado a una palabra por línea, pills en una
+   sola columna vertical, imagen minúscula-, justo el "cards demasiado
+   estrechas" a evitar.
+
+   @container en vez de otro @media: lo que importa es el ancho REAL de
+   LA CARD (que depende de cuántas columnas tenga el grid en cada
+   momento), no el del viewport -con @media habría que mantener manualmente
+   dos números en sincronía (columnas del grid Y punto de apilado del
+   contenido); con @container la propia card decide sola, y sigue
+   funcionando igual de bien si el grid pasa a 3 columnas en el futuro-. */
+@container (max-width: 30rem) {
+  .cardBody {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-lg);
+  }
+
+  .content {
+    flex: 0 0 auto;
+    max-width: none;
+  }
+
+  .visual {
+    flex: 0 0 auto;
+    width: min(100%, 20rem);
+    max-width: 100%;
+    margin-right: 0;
+    margin-inline: auto;
+  }
 }

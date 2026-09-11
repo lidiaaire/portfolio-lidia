@@ -60,7 +60,13 @@
      (72rem/1152px) coincide con el ancho de contenido de `.container`,
      así nunca desborda esa columna aunque en pantallas muy anchas ocupe
      el 100% de ella. */
-  width: clamp(45rem, 70vw, 72rem);
+  /* min(45rem, 100%) como suelo: en vez de un mínimo fijo de 45rem
+     (720px) que en móvil desbordaba muy por encima del viewport -el
+     párrafo quedaba centrado pero cortado por ambos lados, invisible en
+     sus extremos-, el suelo cede hasta el 100% disponible cuando ese
+     100% es menor que 45rem. En desktop no cambia nada (100% del
+     contenedor es mucho mayor que 45rem, así que sigue ganando 45rem). */
+  width: clamp(min(45rem, 100%), 70vw, 72rem);
   text-align: center;
   color: var(--about-body-color);
   font-size: 1.25rem;
@@ -121,11 +127,14 @@
 
 .techRow {
   display: flex;
-  /* Sin salto de línea: las pills forman un grupo compacto centrado, con
-     gap constante entre ellas -antes, space-between repartía el espacio
-     LIBRE entre pills, creando huecos artificiales en vez de un ritmo
-     uniforme-. */
-  flex-wrap: nowrap;
+  /* wrap, no nowrap: en desktop la fila ya cabe en una línea por diseño
+     (por eso nowrap "funcionaba" ahí, no porque lo impida), así que wrap
+     no cambia nada en pantallas anchas -solo entra en juego cuando de
+     verdad no cabe, evitando que las pills se corten fuera de pantalla
+     en móvil, que es justo lo que pasaba-. justify-content:center sigue
+     siendo el que evita los huecos artificiales de space-between, ahora
+     también fila a fila. */
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 0.875rem;
@@ -227,6 +236,17 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.125rem;
+}
+
+/* Móvil: 3 columnas de ~1fr sin mínimo explícito dejaban la 3ª card
+   fuera de pantalla en vez de encoger -las columnas 1fr de Grid no
+   bajan de su min-content, y a partir de cierto ancho ya no hay sitio
+   para 3-. Una sola columna a partir de aquí: cada card recupera ancho
+   de lectura cómodo para icono + título + descripción. */
+@media (max-width: 700px) {
+  .skillsGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .skillCard {

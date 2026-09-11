@@ -48,6 +48,22 @@
   margin-bottom: var(--space-xl);
 }
 
+/* Tablet/móvil: progresión 4 → 2 → 1, mismos breakpoints que el resto
+   del sitio (1024/700). Por debajo de 4 columnas cada card sigue siendo
+   vertical (aspect-ratio 3/4 intacto), solo cambian cuántas caben por
+   fila. */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Card "póster": la imagen ocupa la card entera (no solo una franja
    inferior) y el contenido vive superpuesto sobre el degradado oscuro,
    en vez de debajo en una zona de fondo sólido separada. Vertical
@@ -259,7 +275,10 @@
    dos columnas (sensación de sección, no de dashboard). */
 .statusGrid {
   display: grid;
-  grid-template-columns: 1.3fr 1fr;
+  /* minmax(0, Nfr): mismo fix que Contact.module.css#.grid -sin él, un
+     track puede colapsar a 0 si su contenido no aporta tamaño intrínseco
+     propio-. */
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
   grid-template-areas:
     "intro formation"
     "list formation";
@@ -535,4 +554,39 @@
 .formationItemSubtitle {
   font-size: 0.85rem;
   color: var(--color-text-secondary);
+}
+
+/* Tablet/móvil: el bloque "Ahora mismo | Formación" pasa de 2 columnas a
+   1 sola, apilando intro → lista de estados → formación en ese orden
+   (mismos nodos del DOM, sin reordenar). La lista de 3 estados pasa de
+   fila a columna -en 1 columna de ~300px, 3 items a flex:1 con icono de
+   3.5rem no caben-. .formation pierde el borde/padding lateral (residuo
+   visual de la columna que ya no existe) y gana uno superior, mismo
+   papel de separador. */
+@media (max-width: 700px) {
+  .statusGrid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "intro"
+      "list"
+      "formation";
+    gap: var(--space-lg);
+    padding: var(--space-xl) var(--space-md);
+  }
+
+  .statusList {
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .statusItem {
+    flex: none;
+  }
+
+  .formation {
+    padding-left: 0;
+    padding-top: var(--space-lg);
+    border-left: none;
+    border-top: 1px solid var(--color-border);
+  }
 }

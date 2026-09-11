@@ -12,8 +12,8 @@
   --accent: var(--color-accent-orange);
 }
 
-.section[data-accent="blue"] {
-  --accent: var(--color-accent-blue);
+.section[data-accent="lime"] {
+  --accent: var(--color-accent-lime);
 }
 
 .inner {

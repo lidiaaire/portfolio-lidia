@@ -24,6 +24,11 @@ import styles from "./CaseStudyNextProject.module.css";
 // portfolio es Elevate → Flowly y desde Flowly este enlace mira "hacia
 // atrás".
 //
+// El acento visual (data-accent) es el del proyecto ENLAZADO, no el de
+// la página actual: esta card es una preview de "lo siguiente", así que
+// se lee con la identidad de ese destino -naranja al enlazar a Elevate,
+// verde lima al enlazar a Flowly-, igual que su imagen ya es la suya.
+//
 // Preview compacta de proyecto, no una sección protagonista: una única
 // card horizontal clicable (texto | flecha | imagen), pensada para
 // leerse como "he terminado este proyecto, aquí tienes el anterior/
@@ -47,7 +52,7 @@ export default function CaseStudyNextProject({ slug }) {
   const arrowChar = isPrevious ? "←" : "→";
 
   return (
-    <section className={styles.section} data-accent={project.accent}>
+    <section className={styles.section} data-accent={linkedProject.accent}>
       <div className="container">
         <Link href={`/projects/${linkedProject.id}`} className={styles.card}>
           <span className={styles.text}>
@@ -62,12 +67,16 @@ export default function CaseStudyNextProject({ slug }) {
 
           <span className={styles.visual}>
             <Image
-              src={linkedProject.image}
+              src={linkedProject.nextProjectImage ?? linkedProject.image}
               alt={linkedText.imageAlt ?? linkedProject.title}
               fill
               sizes="(max-width: 700px) 100vw, 22rem"
               className={styles.image}
             />
+            {/* Máscara: la preview se funde hacia el fondo de la card en
+                vez de terminar en un corte seco -mismo --color-surface
+                que .card, nunca un color nuevo-. */}
+            <span className={styles.imageMask} aria-hidden="true" />
           </span>
         </Link>
       </div>

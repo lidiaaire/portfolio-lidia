@@ -16,9 +16,31 @@
 
 .grid {
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
+  /* minmax(0, Nfr), no Nfr a secas: .visual no tiene tamaño intrínseco
+     propio (su <Image fill> es position:absolute, no aporta nada al
+     min-content del grid item) y sin este mínimo explícito el track
+     colapsaba a 0 -el memoji desaparecía por completo- mientras .content
+     se quedaba con todo el ancho. Mismo bug clásico de CSS Grid, mismo
+     fix en todo el archivo. */
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
   align-items: center;
   gap: var(--space-2xl);
+}
+
+/* Móvil/tablet estrecho: una sola columna (formulario primero, memoji
+   después, sin invertir el DOM). El memoji se limita a un tamaño modesto
+   -si ocupara el ancho completo del contenedor la sección ganaría mucha
+   altura de golpe-. */
+@media (max-width: 700px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .visual {
+    width: min(60vw, 16rem);
+    margin-inline: auto;
+  }
 }
 
 .content {
