@@ -779,6 +779,10 @@ const es = {
       email: "Email",
       message: "Mensaje",
       submit: "Enviar",
+      sending: "Enviando...",
+      success: "¡Mensaje enviado! Te responderé lo antes posible.",
+      error:
+        "No se ha podido enviar el mensaje. Inténtalo de nuevo o escríbeme directamente a lidia.devworks@gmail.com.",
     },
   },
 };

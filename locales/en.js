@@ -643,6 +643,10 @@ const en = {
       email: "Email",
       message: "Message",
       submit: "Send",
+      sending: "Sending...",
+      success: "Message sent! I'll get back to you as soon as possible.",
+      error:
+        "The message couldn't be sent. Please try again or email me directly at lidia.devworks@gmail.com.",
     },
   },
 };

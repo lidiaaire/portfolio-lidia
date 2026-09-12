@@ -142,6 +142,41 @@
   opacity: 0.88;
 }
 
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Honeypot anti-spam: oculto visualmente (no display:none, para que los
+   bots que ignoran esa propiedad sigan rellenándolo), invisible e
+   inalcanzable por teclado para una persona real. */
+.honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.feedbackSuccess,
+.feedbackError {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: -0.4rem;
+}
+
+.feedbackSuccess {
+  color: var(--color-accent-lime);
+}
+
+.feedbackError {
+  color: var(--color-accent-pink);
+}
+
 /* ---------- Enlaces sociales ---------- */
 
 .socialList {

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { TbBrandGithub, TbBrandLinkedin, TbMail } from "react-icons/tb";
 import { useLanguage } from "@/context/LanguageContext";
@@ -15,17 +16,72 @@ const FORM_FIELDS = [
   { id: "message", name: "message", type: "textarea" },
 ];
 
-// Zona preparada para enlaces: sin lógica todavía, solo estructura y
-// href de marcador de posición a la espera de las URLs reales.
+// Enlaces reales. LinkedIn queda pendiente: no se ha encontrado la URL
+// exacta en el proyecto, así que se deja como marcador de posición hasta
+// que se proporcione.
 const SOCIAL_LINKS = [
-  { id: "linkedin", label: "LinkedIn", icon: TbBrandLinkedin, href: "#" },
-  { id: "github", label: "GitHub", icon: TbBrandGithub, href: "#" },
-  { id: "email", label: "Email", icon: TbMail, href: "#" },
+  {
+    id: "linkedin",
+    label: "LinkedIn",
+    icon: TbBrandLinkedin,
+    href: "https://www.linkedin.com/in/lidiagarc%C3%ADatorregrosa/",
+    external: true,
+  },
+  {
+    id: "github",
+    label: "GitHub",
+    icon: TbBrandGithub,
+    href: "https://github.com/lidiaaire",
+    external: true,
+  },
+  {
+    id: "email",
+    label: "Email",
+    icon: TbMail,
+    href: "mailto:lidia.devworks@gmail.com",
+  },
 ];
+
+const INITIAL_FORM_VALUES = { name: "", email: "", message: "", website: "" };
 
 export default function Contact() {
   const { t } = useLanguage();
   const contact = t.contact;
+
+  const [formValues, setFormValues] = useState(INITIAL_FORM_VALUES);
+  // idle | sending | success | error
+  const [status, setStatus] = useState("idle");
+  const isSending = status === "sending";
+
+  function handleChange(event) {
+    const { name, value } = event.target;
+    setFormValues((prev) => ({ ...prev, [name]: value }));
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setStatus("sending");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formValues),
+      });
+
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok || !data?.success) {
+        setStatus("error");
+        return;
+      }
+
+      setStatus("success");
+      setFormValues(INITIAL_FORM_VALUES);
+    } catch {
+      setStatus("error");
+    }
+  }
 
   return (
     <section id="contact" className={styles.contact}>
@@ -36,9 +92,21 @@ export default function Contact() {
             <h2 className={styles.heading}>{contact.heading}</h2>
             <p className={styles.text}>{contact.description}</p>
 
-            {/* Sin lógica de envío ni validaciones todavía: solo la
-                estructura del formulario. */}
-            <form className={styles.form}>
+            <form className={styles.form} onSubmit={handleSubmit}>
+              {/* Honeypot anti-spam: oculto visualmente, un visitante real
+                  nunca lo rellena. Si llega con contenido, el servidor lo
+                  descarta como bot sin avisar. */}
+              <input
+                type="text"
+                name="website"
+                value={formValues.website}
+                onChange={handleChange}
+                className={styles.honeypot}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+              />
+
               {FORM_FIELDS.map((field) => (
                 <div key={field.id} className={styles.field}>
                   <label htmlFor={field.id} className={styles.label}>
@@ -50,6 +118,10 @@ export default function Contact() {
                       name={field.name}
                       className={styles.textarea}
                       rows={5}
+                      value={formValues[field.name]}
+                      onChange={handleChange}
+                      required
+                      disabled={isSending}
                     />
                   ) : (
                     <input
@@ -57,20 +129,45 @@ export default function Contact() {
                       name={field.name}
                       type={field.type}
                       className={styles.input}
+                      value={formValues[field.name]}
+                      onChange={handleChange}
+                      required
+                      disabled={isSending}
                     />
                   )}
                 </div>
               ))}
 
-              <button type="submit" className={styles.submitButton}>
-                {contact.form.submit}
+              <button
+                type="submit"
+                className={styles.submitButton}
+                disabled={isSending}
+              >
+                {isSending ? contact.form.sending : contact.form.submit}
               </button>
+
+              {status === "success" && (
+                <p className={styles.feedbackSuccess} role="status">
+                  {contact.form.success}
+                </p>
+              )}
+              {status === "error" && (
+                <p className={styles.feedbackError} role="alert">
+                  {contact.form.error}
+                </p>
+              )}
             </form>
 
             <ul className={styles.socialList}>
-              {SOCIAL_LINKS.map(({ id, label, icon: Icon, href }) => (
+              {SOCIAL_LINKS.map(({ id, label, icon: Icon, href, external }) => (
                 <li key={id}>
-                  <a href={href} className={styles.socialLink}>
+                  <a
+                    href={href}
+                    className={styles.socialLink}
+                    {...(external
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                  >
                     <span className={styles.socialIconWrap}>
                       <Icon className={styles.socialIcon} aria-hidden="true" />
                     </span>
